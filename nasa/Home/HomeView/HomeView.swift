@@ -20,26 +20,9 @@ final class HomeView: UIView {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    
-    private let topImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tag = 0
-        return imageView
-    }()
-    
-    private let leftImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tag = 1
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private let rightImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.tag = 2
-        return imageView
-    }()
+    private let topImageView = UIImageView()
+    private let leftImageView = UIImageView()
+    private let rightImageView = UIImageView()
     
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
