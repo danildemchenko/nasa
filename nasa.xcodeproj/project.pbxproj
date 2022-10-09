@@ -7,23 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C10447828F0C0E000519341 /* RoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447728F0C0E000519341 /* RoverCell.swift */; };
+		2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447D28F1EECA00519341 /* UIFont + ext.swift */; };
+		2C10448028F1EF0A00519341 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447F28F1EF0A00519341 /* Constants.swift */; };
+		2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10448128F1EF4E00519341 /* UIColor + ext.swift */; };
 		2CDD169328F0878200910A32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD169228F0878200910A32 /* AppDelegate.swift */; };
 		2CDD169528F0878200910A32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD169428F0878200910A32 /* SceneDelegate.swift */; };
-		2CDD169728F0878200910A32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD169628F0878200910A32 /* ViewController.swift */; };
-		2CDD169A28F0878200910A32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD169828F0878200910A32 /* Main.storyboard */; };
 		2CDD169C28F0878300910A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD169B28F0878300910A32 /* Assets.xcassets */; };
 		2CDD169F28F0878300910A32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD169D28F0878300910A32 /* LaunchScreen.storyboard */; };
+		2CDD16A728F087D400910A32 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD16A628F087D400910A32 /* HomeController.swift */; };
+		2CDD16A928F0A1F800910A32 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD16A828F0A1F800910A32 /* HomeView.swift */; };
+		2CDD16AB28F0A62E00910A32 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD16AA28F0A62E00910A32 /* HomeModel.swift */; };
+		56831302EBD29B217F4BE322 /* Pods_nasa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5956F3CEE3437774D15D1C /* Pods_nasa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C10447728F0C0E000519341 /* RoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverCell.swift; sourceTree = "<group>"; };
+		2C10447D28F1EECA00519341 /* UIFont + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + ext.swift"; sourceTree = "<group>"; };
+		2C10447F28F1EF0A00519341 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2C10448128F1EF4E00519341 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
 		2CDD168F28F0878200910A32 /* nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nasa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CDD169228F0878200910A32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CDD169428F0878200910A32 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2CDD169628F0878200910A32 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2CDD169928F0878200910A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2CDD169B28F0878300910A32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CDD169E28F0878300910A32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CDD16A028F0878300910A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CDD16A628F087D400910A32 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		2CDD16A828F0A1F800910A32 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		2CDD16AA28F0A62E00910A32 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		6A5956F3CEE3437774D15D1C /* Pods_nasa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nasa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86A013F25290C5BCC11AB76C /* Pods-nasa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nasa.release.xcconfig"; path = "Target Support Files/Pods-nasa/Pods-nasa.release.xcconfig"; sourceTree = "<group>"; };
+		B236D0F2CCFDBF86733B5ADC /* Pods-nasa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nasa.debug.xcconfig"; path = "Target Support Files/Pods-nasa/Pods-nasa.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +45,58 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56831302EBD29B217F4BE322 /* Pods_nasa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C10447628F0C0C900519341 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD16A828F0A1F800910A32 /* HomeView.swift */,
+				2C10447728F0C0E000519341 /* RoverCell.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		2C10447C28F1ED5D00519341 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2C10447D28F1EECA00519341 /* UIFont + ext.swift */,
+				2C10447F28F1EF0A00519341 /* Constants.swift */,
+				2C10448128F1EF4E00519341 /* UIColor + ext.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2C10448328F1F89700519341 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD169228F0878200910A32 /* AppDelegate.swift */,
+				2CDD169428F0878200910A32 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		2C10448628F2F13100519341 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				2CDD169B28F0878300910A32 /* Assets.xcassets */,
+				2CDD169D28F0878300910A32 /* LaunchScreen.storyboard */,
+				2CDD16A028F0878300910A32 /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		2CDD168628F0878200910A32 = {
 			isa = PBXGroup;
 			children = (
 				2CDD169128F0878200910A32 /* nasa */,
 				2CDD169028F0878200910A32 /* Products */,
+				C8D6CBAEC204E131C54D4FB0 /* Pods */,
+				74E792A021BE62B188152A94 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +111,39 @@
 		2CDD169128F0878200910A32 /* nasa */ = {
 			isa = PBXGroup;
 			children = (
-				2CDD169228F0878200910A32 /* AppDelegate.swift */,
-				2CDD169428F0878200910A32 /* SceneDelegate.swift */,
-				2CDD169628F0878200910A32 /* ViewController.swift */,
-				2CDD169828F0878200910A32 /* Main.storyboard */,
-				2CDD169B28F0878300910A32 /* Assets.xcassets */,
-				2CDD169D28F0878300910A32 /* LaunchScreen.storyboard */,
-				2CDD16A028F0878300910A32 /* Info.plist */,
+				2C10448628F2F13100519341 /* SupportingFiles */,
+				2C10448328F1F89700519341 /* Application */,
+				2C10447C28F1ED5D00519341 /* Helpers */,
+				2CDD16AC28F0A6C600910A32 /* Home */,
 			);
 			path = nasa;
+			sourceTree = "<group>";
+		};
+		2CDD16AC28F0A6C600910A32 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				2C10447628F0C0C900519341 /* HomeView */,
+				2CDD16AA28F0A62E00910A32 /* HomeModel.swift */,
+				2CDD16A628F087D400910A32 /* HomeController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		74E792A021BE62B188152A94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A5956F3CEE3437774D15D1C /* Pods_nasa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8D6CBAEC204E131C54D4FB0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B236D0F2CCFDBF86733B5ADC /* Pods-nasa.debug.xcconfig */,
+				86A013F25290C5BCC11AB76C /* Pods-nasa.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +153,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CDD16A328F0878300910A32 /* Build configuration list for PBXNativeTarget "nasa" */;
 			buildPhases = (
+				0677A0FBF52396AE47E16D3E /* [CP] Check Pods Manifest.lock */,
 				2CDD168B28F0878200910A32 /* Sources */,
 				2CDD168C28F0878200910A32 /* Frameworks */,
 				2CDD168D28F0878200910A32 /* Resources */,
+				A0FB5E3BBF11B3321E306533 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,34 +208,73 @@
 			files = (
 				2CDD169F28F0878300910A32 /* LaunchScreen.storyboard in Resources */,
 				2CDD169C28F0878300910A32 /* Assets.xcassets in Resources */,
-				2CDD169A28F0878200910A32 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0677A0FBF52396AE47E16D3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nasa-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0FB5E3BBF11B3321E306533 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nasa/Pods-nasa-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nasa/Pods-nasa-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-nasa/Pods-nasa-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2CDD168B28F0878200910A32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CDD169728F0878200910A32 /* ViewController.swift in Sources */,
+				2CDD16A728F087D400910A32 /* HomeController.swift in Sources */,
+				2CDD16AB28F0A62E00910A32 /* HomeModel.swift in Sources */,
+				2C10447828F0C0E000519341 /* RoverCell.swift in Sources */,
 				2CDD169328F0878200910A32 /* AppDelegate.swift in Sources */,
+				2CDD16A928F0A1F800910A32 /* HomeView.swift in Sources */,
+				2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */,
+				2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */,
 				2CDD169528F0878200910A32 /* SceneDelegate.swift in Sources */,
+				2C10448028F1EF0A00519341 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2CDD169828F0878200910A32 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2CDD169928F0878200910A32 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2CDD169D28F0878300910A32 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,18 +402,19 @@
 		};
 		2CDD16A428F0878300910A32 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B236D0F2CCFDBF86733B5ADC /* Pods-nasa.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6PDU8D65F2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = nasa/Info.plist;
+				INFOPLIST_FILE = nasa/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -301,26 +422,30 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = danil.nasa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		2CDD16A528F0878300910A32 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86A013F25290C5BCC11AB76C /* Pods-nasa.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6PDU8D65F2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = nasa/Info.plist;
+				INFOPLIST_FILE = nasa/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -328,9 +453,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = danil.nasa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
