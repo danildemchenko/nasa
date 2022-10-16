@@ -12,7 +12,16 @@ protocol RoverCellDelegate: AnyObject {
     func getRoverUrl(_ url: URL)
 }
 
-final class HomeView: UIView {
+protocol TopRoversViewDelegate: AnyObject {
+    func tapAtRover(with tag: Int)
+}
+
+protocol HomeViewProtocol {
+    var controller: HomeController! { get set }
+    func setupView(with data: [HomeModel.Rover])
+}
+
+final class HomeView: UIView, HomeViewProtocol {
     
     weak var controller: HomeController!
     
@@ -20,13 +29,11 @@ final class HomeView: UIView {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let topImageView = UIImageView()
-    private let leftImageView = UIImageView()
-    private let rightImageView = UIImageView()
+    private let topRoversView = TopRoversView()
     
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
-        label.text = "FETCH PHOTO FROM ROVER"
+        label.text = Localization.MainScreen.subtitle.uppercased()
         label.font = .getGillSansRegular(ofSize: 12)
         label.textColor = Constants.Color.primary
         return label
@@ -53,7 +60,7 @@ final class HomeView: UIView {
     
     private let fetchAllButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Fetch all", for: .normal)
+        button.setTitle(Localization.MainScreen.fetchButton, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Constants.Color.secondary
         return button
@@ -86,7 +93,7 @@ final class HomeView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         [
             fetchAllButton,
             calendarButton,
@@ -94,15 +101,15 @@ final class HomeView: UIView {
             $0.layer.cornerRadius = $0.frame.height / 2
         }
     }
- 
+    
     private func configureAppearance() {
         backgroundColor = .white
         
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(RoverCell.self, forCellWithReuseIdentifier: RoverCell.id)
-
-        self.topImageView.transform = Constants.Transorm.topImage
+        
+        topRoversView.delegate = self
     }
     
     private func addSubviews() {
@@ -110,9 +117,7 @@ final class HomeView: UIView {
         scrollView.addSubview(contentView)
         
         [
-            topImageView,
-            leftImageView,
-            rightImageView,
+            topRoversView,
             fetchPhotoLabel,
             collectionView,
             buttonsStackView,
@@ -125,28 +130,17 @@ final class HomeView: UIView {
         }
         
         contentView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.top.equalToSuperview()
             $0.width.equalTo(snp.width)
-            $0.top.equalTo(safeAreaInsets).offset(30)
         }
         
-        topImageView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.trailing.leading.equalToSuperview().inset(Constants.Offset.basic)
+        topRoversView.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalTo(contentView.snp.width).multipliedBy(1.25)
         }
         
-        leftImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(Constants.Offset.basic)
-            $0.top.equalTo(topImageView).offset(117)
-        }
-
-        rightImageView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(Constants.Offset.basic)
-            $0.top.equalTo(topImageView).offset(158)
-        }
-
         fetchPhotoLabel.snp.makeConstraints {
-            $0.top.equalTo(leftImageView.snp.bottom).offset(Constants.Offset.basic)
+            $0.top.equalTo(topRoversView.snp.bottom).offset(Constants.Offset.basic)
             $0.leading.trailing.equalToSuperview().offset(Constants.Offset.basic)
         }
         
@@ -175,51 +169,19 @@ final class HomeView: UIView {
     func setupView(with data: [HomeModel.Rover]) {
         rovers = data
         
-        topImageView.image = UIImage(named: data[0].imageName)
-        leftImageView.image = UIImage(named: data[1].imageName)
-        rightImageView.image = UIImage(named: data[2].imageName)
+        topRoversView.configure(with: .init(topImageName: data[0].imageName,
+                                            leftImageName: data[1].imageName,
+                                            rightImageName: data[2].imageName))
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         var visibleRect = CGRect()
         visibleRect.origin = collectionView.contentOffset
         visibleRect.size = collectionView.bounds.size
-
+        
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-        switch indexPath.row {
-        case 0:
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.topImageView.transform = Constants.Transorm.topImage
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.leftImageView.transform = Constants.Transorm.normal
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.rightImageView.transform = Constants.Transorm.normal
-            }
-        case 1:
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.topImageView.transform = Constants.Transorm.normal
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.leftImageView.transform = Constants.Transorm.leftImage
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.rightImageView.transform = Constants.Transorm.normal
-            }
-        case 2:
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.topImageView.transform = Constants.Transorm.normal
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.leftImageView.transform = Constants.Transorm.normal
-            }
-            UIView.animate(withDuration: Constants.animationDuration) {
-                self.rightImageView.transform = Constants.Transorm.rightImage
-            }
-        default: break
-        }
+        topRoversView.animate(selectedRoverTag: indexPath.item)
     }
 }
 
@@ -251,13 +213,8 @@ extension HomeView: RoverCellDelegate {
     }
 }
 
-extension Constants {
-    static let animationDuration = 0.2
-    
-    enum Transorm {
-        static let normal: CGAffineTransform = .init(scaleX: 1, y: 1)
-        static let topImage: CGAffineTransform = .init(scaleX: 1.1, y: 1.15)
-        static let leftImage: CGAffineTransform = .init(scaleX: 1.07, y: 1.07)
-        static let rightImage: CGAffineTransform = .init(scaleX: 1.2, y: 1.15)
+extension HomeView: TopRoversViewDelegate {
+    func tapAtRover(with tag: Int) {
+        collectionView.scrollToItem(at: .init(row: tag, section: 0), at: .bottom, animated: true)
     }
 }

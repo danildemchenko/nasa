@@ -1,0 +1,13 @@
+/*
+  Localizable.strings
+  nasa
+
+  Created by Danil Demchenko on 14.10.2022.
+  
+*/
+
+// main screen
+"main_screen_subtitle" = "Fetch photo from rover";
+"main_screen_mission" = "Mission";
+"main_screen_more_button" = "More";
+"main_screen_fetch_button" = "Fetch all";

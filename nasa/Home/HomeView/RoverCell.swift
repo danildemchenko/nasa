@@ -13,7 +13,7 @@ extension RoverCell {
     struct CellConfig {
         let title: String
         let description: String
-        let url: String
+        let url: URL
     }
 }
 
@@ -25,7 +25,8 @@ final class RoverCell: UICollectionViewCell {
     static let size = CGSize(width: UIScreen.main.bounds.width, height: 230)
     
     private let mainContainer = UIView()
-    private var missionUrl = ""
+    
+    private var missionUrl: URL?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -38,7 +39,7 @@ final class RoverCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = Constants.Color.primary
         label.font = .getGillSansRegular(ofSize: 12)
-        label.text = "mission".uppercased()
+        label.text = Localization.MainScreen.mission.uppercased()
         return label
     }()
     
@@ -57,7 +58,7 @@ final class RoverCell: UICollectionViewCell {
     private let moreButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .clear
-        button.setTitle("MORE", for: .normal)
+        button.setTitle(Localization.MainScreen.moreButton.uppercased(), for: .normal)
         button.setTitleColor(Constants.Color.primary, for: .normal)
         button.titleLabel?.font = .getGillSansRegular(ofSize: 12)
         return button
@@ -141,6 +142,6 @@ final class RoverCell: UICollectionViewCell {
 
 @objc extension RoverCell {
     private func moreButtonHandler() {
-        delegate.getRoverUrl(URL(string: missionUrl)!)
+        delegate.getRoverUrl(missionUrl!)
     }
 }

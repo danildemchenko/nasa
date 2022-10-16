@@ -10,12 +10,26 @@ import SafariServices
 
 final class HomeController: UIViewController {
     
-    var _view = HomeView()
+    private var _view: HomeViewProtocol
     
-    private let model = HomeModel()
+    private var model: HomeModelProtocol
+    
+    init(_view: HomeViewProtocol, model: HomeModelProtocol) {
+        self._view = _view
+        self.model = model
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        _view = HomeView()
+        model = HomeModel()
+        
+        super.init(coder: coder)
+    }
     
     override func loadView() {
-        view = _view
+        view = _view as? UIView
     }
     
     override func viewDidLoad() {
@@ -23,6 +37,8 @@ final class HomeController: UIViewController {
         _view.controller = self
         
         model.getRovers()
+        
+        
     }
     
     func setData(_ data: [HomeModel.Rover]) {

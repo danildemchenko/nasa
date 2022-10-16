@@ -8,6 +8,8 @@
 import UIKit
 
 enum Constants {
+    static let unit = UIScreen.main.bounds.width / 375
+    
     enum Color {
         static let primary = UIColor(hexString: "848B9B")
         static let title = UIColor(hexString: "2C2E30")
@@ -16,6 +18,6 @@ enum Constants {
     }
     
     enum Offset {
-        static let basic = 16
+        static let basic = 16 * Constants.unit
     }
 }
