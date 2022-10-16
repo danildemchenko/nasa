@@ -18,7 +18,7 @@ extension TopRoversView {
 
 final class TopRoversView: UIView {
     
-    var delegate: TopRoversViewDelegate!
+    weak var delegate: TopRoversViewDelegate!
     
     private let topImageView: UIImageView = {
         let imageView = UIImageView()
@@ -60,7 +60,7 @@ final class TopRoversView: UIView {
         transform = transform.translatedBy(x: -Constants.unit * 3, y: -Constants.unit * 32)
         topImageView.transform = transform
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(action1)))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(containerViewHandler)))
     }
     
     private func addSubviews() {
@@ -122,13 +122,6 @@ final class TopRoversView: UIView {
         }
     }
     
-    @objc private func action1(_ sender: UITapGestureRecognizer) {
-        let touchLocation = sender.location(in: sender.view)
-        let segment = checkTapSegment(point: touchLocation)
-        delegate.tapAtRover(with: segment.tag)
-        animate(selectedRoverTag: segment.tag)
-    }
-
     private func checkTapSegment(point: CGPoint) -> UIImageView {
         let rightTriangle = (CGPoint(x: Constants.unit * 375, y: Constants.unit * 128),
                              CGPoint(x: Constants.unit * 375, y: Constants.unit * 470),
@@ -161,4 +154,13 @@ final class TopRoversView: UIView {
 
 private extension Constants {
     static let scaleFactor = 1.25
+}
+
+@objc extension TopRoversView {
+    @objc private func containerViewHandler(_ sender: UITapGestureRecognizer) {
+        let touchLocation = sender.location(in: sender.view)
+        let segment = checkTapSegment(point: touchLocation)
+        delegate.tapAtRover(with: segment.tag)
+        animate(selectedRoverTag: segment.tag)
+    }
 }
