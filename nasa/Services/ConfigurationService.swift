@@ -14,17 +14,14 @@ enum RoverType: String {
     
     var configName: String {
         switch self {
-        case .opportunity:
-            return "Opportunity"
-        case .spirit:
-            return "Spirit"
-        case .curiosity:
-            return "Curiosity"
+        case .opportunity: return "OpportunityConfig"
+        case .spirit: return "SpiritConfig"
+        case .curiosity: return "CuriosityConfig"
         }
     }
 }
 
-final class Configurator {
+final class ConfigurationService {
     
     let apiKey: String
     let missionPageUrl: URL
@@ -37,8 +34,9 @@ final class Configurator {
               let file = FileManager.default.contents(atPath: path),
               let config = try? PropertyListSerialization.propertyList(from: file,
                                                                        options: .mutableContainersAndLeaves,
-                                                                       format: &format) as? [String: Any]
-        else { fatalError("plist not found") }
+                                                                       format: &format) as? [String: Any] else {
+            fatalError("plist not found")
+        }
         
         apiKey = config["apiKey"] as! String
         
@@ -50,16 +48,14 @@ final class Configurator {
             var urlComponents = URLComponents()
             urlComponents.scheme = urlData["scheme"] as? String
             urlComponents.host = urlData["host"] as? String
-            urlComponents.path = "/" + (urlData["path"] as! String)
+            urlComponents.path = (urlData["path"] as? String) ?? ""
             
             let version = urlData["version"] as! String
             if !version.isEmpty {
-                urlComponents.path += "/\(version)"
+                urlComponents.path += "\(version)"
             }
             
             return urlComponents.url!
         }
     }
-    
-    
 }

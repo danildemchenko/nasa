@@ -9,9 +9,9 @@ import UIKit
 
 enum Localization {
     enum MainScreen {
-        static let subtitle = NSLocalizedString("main_screen_subtitle", comment: "")
-        static let mission = NSLocalizedString("main_screen_mission", comment: "")
-        static let moreButton = NSLocalizedString("main_screen_more_button", comment: "")
-        static let fetchButton = NSLocalizedString("main_screen_fetch_button", comment: "")
+        static let subtitle = NSLocalizedString("main_screen.subtitle", comment: "")
+        static let mission = NSLocalizedString("main_screen.mission", comment: "")
+        static let moreButton = NSLocalizedString("main_screen.more_button", comment: "")
+        static let fetchButton = NSLocalizedString("main_screen.fetch_button", comment: "")
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 extension RoverCell {
     struct CellConfig {
         let title: String
@@ -51,6 +50,7 @@ final class RoverCell: UICollectionViewCell {
         textView.textContainer.lineFragmentPadding = 0
         textView.isEditable = false
         textView.isSelectable = false
+        textView.isUserInteractionEnabled = false
         textView.isScrollEnabled = false
         return textView
     }()
@@ -100,7 +100,7 @@ final class RoverCell: UICollectionViewCell {
     private func addConstraints() {
         mainContainer.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(Constants.Offset.basic)
+            $0.leading.trailing.equalToSuperview().inset(16 * HomeView.unit)
         }
         
         titleLabel.snp.makeConstraints {
@@ -119,7 +119,7 @@ final class RoverCell: UICollectionViewCell {
         
         moreButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(5)
-            $0.trailing.equalToSuperview().inset(Constants.Offset.basic)
+            $0.trailing.equalToSuperview().inset(16 * HomeView.unit)
             $0.height.equalTo(30)
         }
     }

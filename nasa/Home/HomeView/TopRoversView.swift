@@ -57,7 +57,7 @@ final class TopRoversView: UIView {
     private func configureAppearance() {
         var transform = CGAffineTransform.identity
         transform = transform.scaledBy(x: Constants.scaleFactor, y: Constants.scaleFactor)
-        transform = transform.translatedBy(x: -Constants.unit * 3, y: -Constants.unit * 32)
+        transform = transform.translatedBy(x: -HomeView.unit * 3, y: -HomeView.unit * 32)
         topImageView.transform = transform
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(containerViewHandler)))
@@ -73,20 +73,20 @@ final class TopRoversView: UIView {
     
     private func addConstraints() {
         topImageView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(Constants.Offset.basic)
-            $0.height.equalTo(Constants.unit * 268)
+            $0.top.leading.trailing.equalToSuperview().inset(16 * HomeView.unit)
+            $0.height.equalTo(HomeView.unit * 268)
         }
         
         leftImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(Constants.Offset.basic)
+            $0.leading.equalToSuperview().offset(16 * HomeView.unit)
             $0.bottom.equalToSuperview()
-            $0.size.equalTo(Constants.unit * 330)
+            $0.size.equalTo(HomeView.unit * 330)
         }
         
         rightImageView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(Constants.Offset.basic)
+            $0.trailing.equalToSuperview().inset(16 * HomeView.unit)
             $0.bottom.equalToSuperview().inset(31)
-            $0.height.equalTo(Constants.unit * 268)
+            $0.height.equalTo(HomeView.unit * 268)
             $0.width.equalTo(rightImageView.snp.height).multipliedBy(0.5)
         }
     }
@@ -104,7 +104,7 @@ final class TopRoversView: UIView {
             rightImageView,
         ].forEach { roverImageView in
             let scaleFactor = selectedRoverTag == roverImageView.tag ? Constants.scaleFactor : 1
-            let offset: CGFloat = selectedRoverTag == roverImageView.tag ? Constants.unit : 0
+            let offset: CGFloat = selectedRoverTag == roverImageView.tag ? HomeView.unit : 0
 
             UIView.animate(withDuration: 0.25) {
                 var transform = CGAffineTransform.identity
@@ -123,13 +123,13 @@ final class TopRoversView: UIView {
     }
     
     private func checkTapSegment(point: CGPoint) -> UIImageView {
-        let rightTriangle = (CGPoint(x: Constants.unit * 375, y: Constants.unit * 128),
-                             CGPoint(x: Constants.unit * 375, y: Constants.unit * 470),
-                             CGPoint(x: Constants.unit * 200, y: Constants.unit * 300))
+        let rightTriangle = (CGPoint(x: HomeView.unit * 375, y: HomeView.unit * 128),
+                             CGPoint(x: HomeView.unit * 375, y: HomeView.unit * 470),
+                             CGPoint(x: HomeView.unit * 200, y: HomeView.unit * 300))
 
-        let leftTriangle = (CGPoint(x: 0, y: Constants.unit * 100),
-                            CGPoint(x: Constants.unit * 375, y: Constants.unit * 470),
-                            CGPoint(x: 0, y: Constants.unit * 470))
+        let leftTriangle = (CGPoint(x: 0, y: HomeView.unit * 100),
+                            CGPoint(x: HomeView.unit * 375, y: HomeView.unit * 470),
+                            CGPoint(x: 0, y: HomeView.unit * 470))
 
         if pointIsContain(at: rightTriangle) {
             return rightImageView
@@ -153,7 +153,7 @@ final class TopRoversView: UIView {
 }
 
 private extension Constants {
-    static let scaleFactor = 1.25
+    static let scaleFactor = 1.35
 }
 
 @objc extension TopRoversView {

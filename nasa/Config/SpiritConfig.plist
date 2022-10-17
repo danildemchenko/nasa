@@ -13,9 +13,9 @@
 			<key>host</key>
 			<string>api.nasa.gov</string>
 			<key>path</key>
-			<string>mars-photos/api</string>
+			<string>/mars-photos/api</string>
 			<key>version</key>
-			<string>v1</string>
+			<string>/v1</string>
 		</dict>
 		<key>missionPage</key>
 		<dict>
@@ -24,7 +24,7 @@
 			<key>host</key>
 			<string>www.jpl.nasa.gov</string>
 			<key>path</key>
-			<string>missions/mars-exploration-rover-opportunity-mer</string>
+			<string>/missions/mars-exploration-rover-spirit-mer-spirit</string>
 			<key>version</key>
 			<string></string>
 		</dict>

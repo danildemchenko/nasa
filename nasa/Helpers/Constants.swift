@@ -8,8 +8,6 @@
 import UIKit
 
 enum Constants {
-    static let unit = UIScreen.main.bounds.width / 375
-    
     enum Color {
         static let primary = UIColor(hexString: "848B9B")
         static let title = UIColor(hexString: "2C2E30")
@@ -17,7 +15,11 @@ enum Constants {
         static let secondary = UIColor(hexString: "536DFE")
     }
     
-    enum Offset {
-        static let basic = 16 * Constants.unit
+    enum PrimaryDateFormatter {
+        static let request: DateFormatter = {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            return dateFormatter
+        }()
     }
 }

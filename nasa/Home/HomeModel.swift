@@ -28,18 +28,18 @@ final class HomeModel: HomeModelProtocol {
             .init(imageName: "opportunity",
                   name: "Opportunity",
                   mission: "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission.",
-                  missionUrl: Configurator(with: .opportunity).missionPageUrl
+                  missionUrl: ConfigurationService(with: .opportunity).missionPageUrl
                   ),
             .init(imageName: "spirit",
                   name: "Spirit",
                   mission: "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission. Additional text just for the test spirit",
-                  missionUrl: Configurator(with: .spirit).missionPageUrl
+                  missionUrl: ConfigurationService(with: .spirit).missionPageUrl
                  )
             ,
             .init(imageName: "curiosity",
                   name: "Curiosity",
                   mission: "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission. Additional text just for the test curiosity",
-                  missionUrl: Configurator(with: .curiosity).missionPageUrl
+                  missionUrl: ConfigurationService(with: .curiosity).missionPageUrl
                  )
         ]
         controller.setData(data)

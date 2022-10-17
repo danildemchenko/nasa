@@ -21,7 +21,8 @@ protocol HomeViewProtocol {
     func setupView(with data: [HomeModel.Rover])
 }
 
-final class HomeView: UIView, HomeViewProtocol {
+// MARK: substituted main view
+final class HomeView: UIView {
     
     weak var controller: HomeController!
     
@@ -30,6 +31,8 @@ final class HomeView: UIView, HomeViewProtocol {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let topRoversView = TopRoversView()
+    
+    static let unit = UIScreen.main.bounds.width / 375
     
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
@@ -140,8 +143,8 @@ final class HomeView: UIView, HomeViewProtocol {
         }
         
         fetchPhotoLabel.snp.makeConstraints {
-            $0.top.equalTo(topRoversView.snp.bottom).offset(Constants.Offset.basic)
-            $0.leading.trailing.equalToSuperview().offset(Constants.Offset.basic)
+            $0.top.equalTo(topRoversView.snp.bottom).offset(16 * HomeView.unit)
+            $0.leading.trailing.equalToSuperview().offset(16 * HomeView.unit)
         }
         
         collectionView.snp.makeConstraints {
@@ -166,14 +169,6 @@ final class HomeView: UIView, HomeViewProtocol {
         }
     }
     
-    func setupView(with data: [HomeModel.Rover]) {
-        rovers = data
-        
-        topRoversView.configure(with: .init(topImageName: data[0].imageName,
-                                            leftImageName: data[1].imageName,
-                                            rightImageName: data[2].imageName))
-    }
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         var visibleRect = CGRect()
         visibleRect.origin = collectionView.contentOffset
@@ -185,6 +180,7 @@ final class HomeView: UIView, HomeViewProtocol {
     }
 }
 
+// MARK: UICollectionViewDataSource
 extension HomeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rovers.count
@@ -199,6 +195,7 @@ extension HomeView: UICollectionViewDataSource {
     }
 }
 
+// MARK: UICollectionViewDelegateFlowLayout
 extension HomeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -207,14 +204,27 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: RoverCellDelegate
 extension HomeView: RoverCellDelegate {
     func getRoverUrl(_ url: URL) {
         controller.openMission(with: url)
     }
 }
 
+// MARK: TopRoversViewDelegate
 extension HomeView: TopRoversViewDelegate {
     func tapAtRover(with tag: Int) {
         collectionView.scrollToItem(at: .init(row: tag, section: 0), at: .bottom, animated: true)
+    }
+}
+
+// MARK: HomeViewProtocol
+extension HomeView: HomeViewProtocol {
+    func setupView(with data: [HomeModel.Rover]) {
+        rovers = data
+        
+        topRoversView.configure(with: .init(topImageName: data[0].imageName,
+                                            leftImageName: data[1].imageName,
+                                            rightImageName: data[2].imageName))
     }
 }
