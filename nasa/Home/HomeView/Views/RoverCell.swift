@@ -34,19 +34,14 @@ final class RoverCell: UICollectionViewCell {
         return label
     }()
     
-    private let descriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .clear
-        textView.textContainer.maximumNumberOfLines = 5
-        textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.textContainer.lineFragmentPadding = 0
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.isUserInteractionEnabled = false
-        textView.isScrollEnabled = false
-        return textView
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .getGillSansRegular(ofSize: 15)
+        label.textColor = Constants.Color.description
+        label.numberOfLines = 5
+        return label
     }()
-    
+
     private let moreButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .clear
@@ -85,7 +80,7 @@ final class RoverCell: UICollectionViewCell {
         [
             titleLabel,
             missionLabel,
-            descriptionTextView,
+            descriptionLabel,
             moreButton,
         ].forEach(mainContainer.addSubview)
     }
@@ -105,7 +100,7 @@ final class RoverCell: UICollectionViewCell {
             $0.leading.trailing.equalToSuperview()
         }
         
-        descriptionTextView.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(missionLabel.snp.bottom).offset(6)
             $0.leading.trailing.equalToSuperview()
         }
@@ -117,17 +112,8 @@ final class RoverCell: UICollectionViewCell {
         }
     }
     
-    private func configureRoverDescription(with text: String) {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 6
-        let attributes = [NSAttributedString.Key.paragraphStyle: style]
-        descriptionTextView.attributedText = NSAttributedString(string: text, attributes: attributes)
-        descriptionTextView.font = .getGillSansRegular(ofSize: 15)
-        descriptionTextView.textColor = Constants.Color.description
-    }
-    
     func configure(with config: RoverCell.CellConfig) {
         titleLabel.text = config.title.uppercased()
-        configureRoverDescription(with: config.description)
+        descriptionLabel.text = config.description
     }
 }

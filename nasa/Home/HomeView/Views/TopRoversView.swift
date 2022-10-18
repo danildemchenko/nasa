@@ -41,7 +41,7 @@ final class TopRoversView: UIView {
         }
         
         var transform = CGAffineTransform.identity
-        transform = transform.scaledBy(x: Constants.scaleFactor, y: Constants.scaleFactor)
+        transform = transform.scaledBy(x: 1.35, y: 1.35)
         transform = transform.translatedBy(x: -HomeView.unit * 3, y: -HomeView.unit * 32)
         topImageView.transform = transform
         
@@ -83,7 +83,7 @@ final class TopRoversView: UIView {
             leftImageView,
             rightImageView,
         ].forEach { roverImageView in
-            let scaleFactor = selectedRoverTag == roverImageView.tag ? Constants.scaleFactor : 1
+            let scaleFactor = selectedRoverTag == roverImageView.tag ? 1.35 : 1
             let offset: CGFloat = selectedRoverTag == roverImageView.tag ? HomeView.unit : 0
 
             UIView.animate(withDuration: 0.25) {
@@ -130,10 +130,6 @@ final class TopRoversView: UIView {
             return (a >= 0 && b >= 0 && c >= 0) || (a <= 0 && b <= 0 && c <= 0)
         }
     }
-}
-
-private extension Constants {
-    static let scaleFactor = 1.35
 }
 
 @objc extension TopRoversView {

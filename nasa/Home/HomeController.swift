@@ -11,7 +11,6 @@ import SafariServices
 final class HomeController: UIViewController {
     
     private var homeView: HomeViewProtocol
-    
     private var model: HomeModelProtocol
     
     init(homeView: HomeViewProtocol, model: HomeModelProtocol) {

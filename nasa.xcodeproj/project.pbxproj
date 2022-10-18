@@ -71,9 +71,8 @@
 		2C10447628F0C0C900519341 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				2C74C11F28FF156500F3E914 /* Views */,
 				2CDD16A828F0A1F800910A32 /* HomeView.swift */,
-				2C10447728F0C0E000519341 /* RoverCell.swift */,
-				2CAF9D2328F960F700ED9892 /* TopRoversView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -99,11 +98,22 @@
 		2C10448628F2F13100519341 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				2CAF9D2D28FAAC2B00ED9892 /* Config */,
+				2CAF9D2528F9AFF900ED9892 /* Localization */,
 				2CDD169B28F0878300910A32 /* Assets.xcassets */,
 				2CDD169D28F0878300910A32 /* LaunchScreen.storyboard */,
 				2CDD16A028F0878300910A32 /* Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		2C74C11F28FF156500F3E914 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C10447728F0C0E000519341 /* RoverCell.swift */,
+				2CAF9D2328F960F700ED9892 /* TopRoversView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2CAF9D2528F9AFF900ED9892 /* Localization */ = {
@@ -173,8 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				2C10448328F1F89700519341 /* Application */,
-				2CAF9D2D28FAAC2B00ED9892 /* Config */,
-				2CAF9D2528F9AFF900ED9892 /* Localization */,
 				2C10448628F2F13100519341 /* SupportingFiles */,
 				2C10447C28F1ED5D00519341 /* Helpers */,
 				2CDD16AC28F0A6C600910A32 /* Home */,

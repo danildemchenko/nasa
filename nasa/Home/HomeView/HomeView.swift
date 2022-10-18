@@ -23,18 +23,12 @@ final class HomeView: UIView, HomeViewProtocol {
     
     // MARK: HARDCODED STATIC DATA
     let roversData: [RoverCell.CellConfig] = [
-        .init(
-            title: Localization.MainScreen.Rover.Top.title,
-            description: Localization.MainScreen.Rover.Top.description
-        ),
-        .init(
-            title: Localization.MainScreen.Rover.Left.title,
-            description: Localization.MainScreen.Rover.Left.description
-        ),
-        .init(
-            title: Localization.MainScreen.Rover.Right.title,
-            description: Localization.MainScreen.Rover.Right.description
-        ),
+        .init(title: Localization.MainScreen.Rover.Top.title,
+              description: Localization.MainScreen.Rover.Top.description),
+        .init(title: Localization.MainScreen.Rover.Left.title,
+            description: Localization.MainScreen.Rover.Left.description),
+        .init(title: Localization.MainScreen.Rover.Right.title,
+            description: Localization.MainScreen.Rover.Right.description),
     ]
     
     private let scrollView = UIScrollView()

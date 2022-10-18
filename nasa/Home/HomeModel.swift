@@ -9,6 +9,7 @@ import Foundation
 
 protocol HomeModelProtocol {
     var controller: HomeController! { get set }
+    
     func openRoverMissionPage(_ rover: RoverType)
 }
 

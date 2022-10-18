@@ -11,6 +11,14 @@ protocol URLProviderProtocol {
     var url: URL { get }
 }
 
+final class URLProvider: URLProviderProtocol {
+    var url: URL
+    
+    init(endpoint: NasaApiEndpoint) {
+        url = endpoint.url
+    }
+}
+
 enum NasaApiEndpoint {
     case manifest(rover: RoverType)
     case photosbySol(rover: RoverType, sol: Int, page: Int)
@@ -48,14 +56,5 @@ enum NasaApiEndpoint {
             ])
             return resultUrl
         }
-    }
-}
-
-final class URLProvider: URLProviderProtocol {
-    
-    var url: URL
-    
-    init(endpoint: NasaApiEndpoint) {
-        url = endpoint.url
     }
 }
