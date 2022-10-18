@@ -36,17 +36,15 @@ final class HomeController: UIViewController {
     override func viewDidLoad() {
         model.controller = self
         homeView.controller = self
-        
-        model.getRovers()
-    }
-    
-    func setData(_ data: [HomeModel.Rover]) {
-        homeView.setupView(with: data)
     }
     
     func openMission(with url: URL) {
         let safariController = SFSafariViewController(url: url)
         safariController.modalPresentationStyle = .popover
         present(safariController, animated: true)
+    }
+    
+    func selectedRover(_ rover: RoverType) {
+        model.openRoverMissionPage(rover)
     }
 }

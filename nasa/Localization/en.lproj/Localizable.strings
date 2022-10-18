@@ -1,5 +1,16 @@
 // main screen
 "main_screen.subtitle" = "Fetch photo from rover";
 "main_screen.mission" = "Mission";
-"main_screen.more_button" = "More";
+"main_screen.more_button" = "More...";
 "main_screen.fetch_button" = "Fetch all";
+
+//main screen: rovers
+"main_screen.top-rover_title" = "Opportunity";
+"main_screen.top-rover_description" = "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission.";
+
+"main_screen.left-rover_title" = "Spirit";
+"main_screen.left-rover_description" = "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission. Additional text just for the test spirit";
+
+
+"main_screen.right-rover_title" = "Curiosity";
+"main_screen.right-rover_description" = "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission. Additional text just for the test curiosity";

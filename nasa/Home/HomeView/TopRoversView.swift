@@ -8,36 +8,14 @@
 import UIKit
 import SnapKit
 
-extension TopRoversView {
-    struct TopRoversViewConfig {
-        let topImageName: String
-        let leftImageName: String
-        let rightImageName: String
-    }
-}
-
 final class TopRoversView: UIView {
     
     weak var delegate: TopRoversViewDelegate!
     
-    private let topImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tag = 0
-        return imageView
-    }()
-    
-    private let leftImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tag = 1
-        return imageView
-    }()
-    
-    private let rightImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tag = 2
-        return imageView
-    }()
-    
+    private let topImageView = UIImageView()
+    private let leftImageView = UIImageView()
+    private let rightImageView = UIImageView()
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,6 +33,13 @@ final class TopRoversView: UIView {
     }
     
     private func configureAppearance() {
+        let imageViews = [topImageView, leftImageView, rightImageView]
+     
+        for (type, imageView) in zip(RoverType.allCases, imageViews) {
+            imageView.image = UIImage(named: type.stringValue)
+            imageView.tag = type.rawValue
+        }
+        
         var transform = CGAffineTransform.identity
         transform = transform.scaledBy(x: Constants.scaleFactor, y: Constants.scaleFactor)
         transform = transform.translatedBy(x: -HomeView.unit * 3, y: -HomeView.unit * 32)
@@ -91,11 +76,6 @@ final class TopRoversView: UIView {
         }
     }
     
-    func configure(with config: TopRoversViewConfig) {
-        topImageView.image = UIImage(named: config.topImageName)
-        leftImageView.image = UIImage(named: config.leftImageName)
-        rightImageView.image = UIImage(named: config.rightImageName)
-    }
     
     func animate(selectedRoverTag: Int) {
         [
@@ -160,7 +140,7 @@ private extension Constants {
     @objc private func containerViewHandler(_ sender: UITapGestureRecognizer) {
         let touchLocation = sender.location(in: sender.view)
         let segment = checkTapSegment(point: touchLocation)
-        delegate.tapAtRover(with: segment.tag)
+        delegate.tapAt(rover: .init(rawValue: segment.tag)!)
         animate(selectedRoverTag: segment.tag)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum RoverType: String {
+enum RoverType: Int, CaseIterable {
     case opportunity
     case spirit
     case curiosity
@@ -17,6 +17,14 @@ enum RoverType: String {
         case .opportunity: return "OpportunityConfig"
         case .spirit: return "SpiritConfig"
         case .curiosity: return "CuriosityConfig"
+        }
+    }
+    
+    var stringValue: String {
+        switch self {
+        case .opportunity: return "opportunity"
+        case .spirit: return "spirit"
+        case .curiosity: return "curiosity"
         }
     }
 }

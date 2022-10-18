@@ -12,20 +12,12 @@ extension RoverCell {
     struct CellConfig {
         let title: String
         let description: String
-        let url: URL
     }
 }
 
 final class RoverCell: UICollectionViewCell {
     
-    weak var delegate: RoverCellDelegate!
-    
-    static let id = "rover"
-    static let size = CGSize(width: UIScreen.main.bounds.width, height: 230)
-    
     private let mainContainer = UIView()
-    
-    private var missionUrl: URL?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,6 +56,9 @@ final class RoverCell: UICollectionViewCell {
         return button
     }()
     
+    static let id = "rover"
+    static let size = CGSize(width: UIScreen.main.bounds.width, height: 230)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -82,8 +77,6 @@ final class RoverCell: UICollectionViewCell {
     
     private func configureAppearance() {
         backgroundColor = .white
-        
-        moreButton.addTarget(self, action: #selector(moreButtonHandler), for: .touchDown)
     }
     
     private func addSubviews() {
@@ -136,12 +129,5 @@ final class RoverCell: UICollectionViewCell {
     func configure(with config: RoverCell.CellConfig) {
         titleLabel.text = config.title.uppercased()
         configureRoverDescription(with: config.description)
-        missionUrl = config.url
-    }
-}
-
-@objc extension RoverCell {
-    private func moreButtonHandler() {
-        delegate.getRoverUrl(missionUrl!)
     }
 }

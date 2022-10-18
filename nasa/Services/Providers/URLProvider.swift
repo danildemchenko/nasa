@@ -20,7 +20,7 @@ enum NasaApiEndpoint {
         switch self {
         case .manifest(let rover):
             let config = ConfigurationService(with: rover)
-            var resultUrl = config.primaryUrl.appending(path: "/manifests/\(rover.rawValue)")
+            var resultUrl = config.primaryUrl.appending(path: "/manifests/\(rover.stringValue)")
             resultUrl.append(queryItems: [
                 .init(name: "api_key", value: config.apiKey)
             ])
@@ -30,7 +30,7 @@ enum NasaApiEndpoint {
             let dateStr = Constants.PrimaryDateFormatter.request.string(from: date)
             
             let config = ConfigurationService(with: rover)
-            var resultUrl = config.primaryUrl.appending(path: "/rovers/\(rover.rawValue)/photos")
+            var resultUrl = config.primaryUrl.appending(path: "/rovers/\(rover.stringValue)/photos")
             resultUrl.append(queryItems: [
                 .init(name: "earth_date", value: dateStr),
                 .init(name: "page", value: String(page)),
@@ -40,7 +40,7 @@ enum NasaApiEndpoint {
             
         case .photosbySol(let rover, let sol, let page):
             let config = ConfigurationService(with: rover)
-            var resultUrl = config.primaryUrl.appending(path: "/rovers/\(rover.rawValue)/photos")
+            var resultUrl = config.primaryUrl.appending(path: "/rovers/\(rover.stringValue)/photos")
             resultUrl.append(queryItems: [
                 .init(name: "sol", value: String(sol)),
                 .init(name: "page", value: String(page)),

@@ -8,25 +8,34 @@
 import UIKit
 import SnapKit
 
-protocol RoverCellDelegate: AnyObject {
-    func getRoverUrl(_ url: URL)
-}
-
 protocol TopRoversViewDelegate: AnyObject {
-    func tapAtRover(with tag: Int)
+    func tapAt(rover: RoverType)
 }
 
 protocol HomeViewProtocol {
     var controller: HomeController! { get set }
-    func setupView(with data: [HomeModel.Rover])
 }
 
 // MARK: substituted main view
-final class HomeView: UIView {
+final class HomeView: UIView, HomeViewProtocol {
     
     weak var controller: HomeController!
     
-    private var rovers: [HomeModel.Rover] = []
+    // MARK: HARDCODED STATIC DATA
+    let roversData: [RoverCell.CellConfig] = [
+        .init(
+            title: Localization.MainScreen.Rover.Top.title,
+            description: Localization.MainScreen.Rover.Top.description
+        ),
+        .init(
+            title: Localization.MainScreen.Rover.Left.title,
+            description: Localization.MainScreen.Rover.Left.description
+        ),
+        .init(
+            title: Localization.MainScreen.Rover.Right.title,
+            description: Localization.MainScreen.Rover.Right.description
+        ),
+    ]
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -183,14 +192,13 @@ final class HomeView: UIView {
 // MARK: UICollectionViewDataSource
 extension HomeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return rovers.count
+        return roversData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoverCell.id, for: indexPath) as! RoverCell
-        let item = rovers[indexPath.item]
-        cell.delegate = self
-        cell.configure(with: .init(title: item.name, description: item.mission, url: item.missionUrl))
+        let item = roversData[indexPath.item]
+        cell.configure(with: .init(title: item.title, description: item.description))
         return cell
     }
 }
@@ -202,29 +210,15 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         RoverCell.size
     }
-}
-
-// MARK: RoverCellDelegate
-extension HomeView: RoverCellDelegate {
-    func getRoverUrl(_ url: URL) {
-        controller.openMission(with: url)
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        controller.selectedRover(RoverType(rawValue: indexPath.item)!)
     }
 }
 
 // MARK: TopRoversViewDelegate
 extension HomeView: TopRoversViewDelegate {
-    func tapAtRover(with tag: Int) {
-        collectionView.scrollToItem(at: .init(row: tag, section: 0), at: .bottom, animated: true)
-    }
-}
-
-// MARK: HomeViewProtocol
-extension HomeView: HomeViewProtocol {
-    func setupView(with data: [HomeModel.Rover]) {
-        rovers = data
-        
-        topRoversView.configure(with: .init(topImageName: data[0].imageName,
-                                            leftImageName: data[1].imageName,
-                                            rightImageName: data[2].imageName))
+    func tapAt(rover: RoverType) {
+        collectionView.scrollToItem(at: .init(row: rover.rawValue, section: 0), at: .bottom, animated: true)
     }
 }
