@@ -8,24 +8,16 @@
 import UIKit
 import SnapKit
 
-
 extension RoverCell {
     struct CellConfig {
         let title: String
         let description: String
-        let url: String
     }
 }
 
 final class RoverCell: UICollectionViewCell {
     
-    weak var delegate: RoverCellDelegate!
-    
-    static let id = "rover"
-    static let size = CGSize(width: UIScreen.main.bounds.width, height: 230)
-    
     private let mainContainer = UIView()
-    private var missionUrl = ""
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -38,30 +30,29 @@ final class RoverCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = Constants.Color.primary
         label.font = .getGillSansRegular(ofSize: 12)
-        label.text = "mission".uppercased()
+        label.text = Localization.MainScreen.mission.uppercased()
         return label
     }()
     
-    private let descriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .clear
-        textView.textContainer.maximumNumberOfLines = 5
-        textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.textContainer.lineFragmentPadding = 0
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.isScrollEnabled = false
-        return textView
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .getGillSansRegular(ofSize: 15)
+        label.textColor = Constants.Color.description
+        label.numberOfLines = 5
+        return label
     }()
-    
+
     private let moreButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .clear
-        button.setTitle("MORE", for: .normal)
+        button.setTitle(Localization.MainScreen.moreButton.uppercased(), for: .normal)
         button.setTitleColor(Constants.Color.primary, for: .normal)
         button.titleLabel?.font = .getGillSansRegular(ofSize: 12)
         return button
     }()
+    
+    static let id = "rover"
+    static let size = CGSize(width: UIScreen.main.bounds.width, height: 230)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,8 +72,6 @@ final class RoverCell: UICollectionViewCell {
     
     private func configureAppearance() {
         backgroundColor = .white
-        
-        moreButton.addTarget(self, action: #selector(moreButtonHandler), for: .touchDown)
     }
     
     private func addSubviews() {
@@ -91,7 +80,7 @@ final class RoverCell: UICollectionViewCell {
         [
             titleLabel,
             missionLabel,
-            descriptionTextView,
+            descriptionLabel,
             moreButton,
         ].forEach(mainContainer.addSubview)
     }
@@ -99,7 +88,7 @@ final class RoverCell: UICollectionViewCell {
     private func addConstraints() {
         mainContainer.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(Constants.Offset.basic)
+            $0.leading.trailing.equalToSuperview().inset(16 * HomeView.unit)
         }
         
         titleLabel.snp.makeConstraints {
@@ -111,36 +100,20 @@ final class RoverCell: UICollectionViewCell {
             $0.leading.trailing.equalToSuperview()
         }
         
-        descriptionTextView.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(missionLabel.snp.bottom).offset(6)
             $0.leading.trailing.equalToSuperview()
         }
         
         moreButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(5)
-            $0.trailing.equalToSuperview().inset(Constants.Offset.basic)
+            $0.trailing.equalToSuperview().inset(16 * HomeView.unit)
             $0.height.equalTo(30)
         }
     }
     
-    private func configureRoverDescription(with text: String) {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 6
-        let attributes = [NSAttributedString.Key.paragraphStyle: style]
-        descriptionTextView.attributedText = NSAttributedString(string: text, attributes: attributes)
-        descriptionTextView.font = .getGillSansRegular(ofSize: 15)
-        descriptionTextView.textColor = Constants.Color.description
-    }
-    
     func configure(with config: RoverCell.CellConfig) {
         titleLabel.text = config.title.uppercased()
-        configureRoverDescription(with: config.description)
-        missionUrl = config.url
-    }
-}
-
-@objc extension RoverCell {
-    private func moreButtonHandler() {
-        delegate.getRoverUrl(URL(string: missionUrl)!)
+        descriptionLabel.text = config.description
     }
 }

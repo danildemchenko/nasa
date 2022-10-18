@@ -10,28 +10,40 @@ import SafariServices
 
 final class HomeController: UIViewController {
     
-    var _view = HomeView()
+    private var homeView: HomeViewProtocol
+    private var model: HomeModelProtocol
     
-    private let model = HomeModel()
+    init(homeView: HomeViewProtocol, model: HomeModelProtocol) {
+        self.homeView = homeView
+        self.model = model
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        homeView = HomeView()
+        model = HomeModel()
+        
+        super.init(coder: coder)
+    }
     
     override func loadView() {
-        view = _view
+        // MARK: substitution => native view of UIViewController with custom homeView
+        view = homeView as? UIView
     }
     
     override func viewDidLoad() {
         model.controller = self
-        _view.controller = self
-        
-        model.getRovers()
-    }
-    
-    func setData(_ data: [HomeModel.Rover]) {
-        _view.setupView(with: data)
+        homeView.controller = self
     }
     
     func openMission(with url: URL) {
         let safariController = SFSafariViewController(url: url)
         safariController.modalPresentationStyle = .popover
         present(safariController, animated: true)
+    }
+    
+    func selectedRover(_ rover: RoverType) {
+        model.openRoverMissionPage(rover)
     }
 }
