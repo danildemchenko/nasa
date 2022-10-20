@@ -46,4 +46,15 @@ final class HomeController: UIViewController {
     func selectedRover(_ rover: RoverType) {
         model.openRoverMissionPage(rover)
     }
+    
+    func openManifest(for rover: RoverType) {
+        let model = ManifestModel(service: ManifestService(), storageService: StorageService())
+        let manifestController = ManifestController(model: model, manifestView: ManifestView(), rover: rover)
+        manifestController.modalPresentationStyle = .fullScreen
+        present(manifestController, animated: true)
+    }
+    
+    func selectedIndexRover(_ index: Int) {
+        model.moveToManifestScreen(with: index)
+    }
 }

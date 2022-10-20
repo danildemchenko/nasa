@@ -22,7 +22,7 @@ final class URLProvider: URLProviderProtocol {
 enum NasaApiEndpoint {
     case manifest(rover: RoverType)
     case photosbySol(rover: RoverType, sol: Int, page: Int)
-    case photosByData(rover: RoverType, date: Date, page: Int)
+    case photosByDate(rover: RoverType, date: Date, page: Int)
     
     var url: URL {
         switch self {
@@ -34,7 +34,7 @@ enum NasaApiEndpoint {
             ])
             return resultUrl
             
-        case .photosByData(let rover, let date, let page):
+        case .photosByDate(let rover, let date, let page):
             let dateStr = Constants.PrimaryDateFormatter.request.string(from: date)
             
             let config = ConfigurationService(with: rover)

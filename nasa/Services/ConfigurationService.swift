@@ -7,28 +7,6 @@
 
 import UIKit
 
-enum RoverType: Int, CaseIterable {
-    case opportunity
-    case spirit
-    case curiosity
-    
-    var configName: String {
-        switch self {
-        case .opportunity: return "OpportunityConfig"
-        case .spirit: return "SpiritConfig"
-        case .curiosity: return "CuriosityConfig"
-        }
-    }
-    
-    var stringValue: String {
-        switch self {
-        case .opportunity: return "opportunity"
-        case .spirit: return "spirit"
-        case .curiosity: return "curiosity"
-        }
-    }
-}
-
 final class ConfigurationService {
     
     let apiKey: String

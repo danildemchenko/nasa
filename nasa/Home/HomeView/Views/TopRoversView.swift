@@ -36,7 +36,7 @@ final class TopRoversView: UIView {
         let imageViews = [topImageView, leftImageView, rightImageView]
      
         for (type, imageView) in zip(RoverType.allCases, imageViews) {
-            imageView.image = UIImage(named: type.stringValue)
+            imageView.image = UIImage(named: type.homeImage)
             imageView.tag = type.rawValue
         }
         
@@ -75,7 +75,6 @@ final class TopRoversView: UIView {
             $0.width.equalTo(rightImageView.snp.height).multipliedBy(0.5)
         }
     }
-    
     
     func animate(selectedRoverTag: Int) {
         [

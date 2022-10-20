@@ -16,10 +16,16 @@ enum Constants {
     }
     
     enum PrimaryDateFormatter {
-        static let request: DateFormatter = {
+        static var request: DateFormatter {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             return dateFormatter
-        }()
+        }
+        
+        static var manifest: DateFormatter {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            return dateFormatter
+        }
     }
 }

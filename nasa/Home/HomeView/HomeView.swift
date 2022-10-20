@@ -22,7 +22,7 @@ final class HomeView: UIView, HomeViewProtocol {
     weak var controller: HomeController!
     
     // MARK: HARDCODED STATIC DATA
-    let roversData: [RoverCell.CellConfig] = [
+    private let roversData: [RoverCell.CellConfig] = [
         .init(title: Localization.MainScreen.Rover.Top.title,
               description: Localization.MainScreen.Rover.Top.description),
         .init(title: Localization.MainScreen.Rover.Left.title,
@@ -30,6 +30,8 @@ final class HomeView: UIView, HomeViewProtocol {
         .init(title: Localization.MainScreen.Rover.Right.title,
             description: Localization.MainScreen.Rover.Right.description),
     ]
+    
+    private var currentItemIndex = 0
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -116,6 +118,8 @@ final class HomeView: UIView, HomeViewProtocol {
         collectionView.register(RoverCell.self, forCellWithReuseIdentifier: RoverCell.id)
         
         topRoversView.delegate = self
+        
+        fetchAllButton.addTarget(self, action: #selector(fetchAllHandler), for: .touchUpInside)
     }
     
     private func addSubviews() {
@@ -179,7 +183,8 @@ final class HomeView: UIView, HomeViewProtocol {
         
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-        topRoversView.animate(selectedRoverTag: indexPath.item)
+        currentItemIndex = indexPath.item
+        topRoversView.animate(selectedRoverTag: currentItemIndex)
     }
 }
 
@@ -214,5 +219,12 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
 extension HomeView: TopRoversViewDelegate {
     func tapAt(rover: RoverType) {
         collectionView.scrollToItem(at: .init(row: rover.rawValue, section: 0), at: .bottom, animated: true)
+        currentItemIndex = rover.rawValue
+    }
+}
+
+@objc extension HomeView {
+    func fetchAllHandler() {
+        controller.selectedIndexRover(currentItemIndex)
     }
 }
