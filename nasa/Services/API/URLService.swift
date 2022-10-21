@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol URLProviderProtocol {
+protocol URLServiceProtocol {
     var url: URL { get }
 }
 
-final class URLProvider: URLProviderProtocol {
+final class URLService: URLServiceProtocol {
     var url: URL
     
     init(endpoint: NasaApiEndpoint) {
@@ -35,7 +35,7 @@ enum NasaApiEndpoint {
             return resultUrl
             
         case .photosByDate(let rover, let date, let page):
-            let dateStr = Constants.PrimaryDateFormatter.request.string(from: date)
+            let dateStr = Constants.CustomDataFormatter.request.string(from: date)
             
             let config = ConfigurationService(with: rover)
             var resultUrl = config.primaryUrl.appending(path: "/rovers/\(rover.stringValue)/photos")

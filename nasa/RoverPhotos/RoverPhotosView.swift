@@ -7,14 +7,16 @@
 
 import UIKit
 
-protocol ManifestViewProtocol {
-    var controller: ManifestController! { get set }
-    var manifest: ManifestModel.Manifest! { get set }
-    var photos: [ManifestModel.RoverPhoto]! { get set }
+protocol RoverPhotosViewProtocol {
+    var backgroundImage: UIImage? { get set }
+    var manifest: Manifest! { get set }
+    var photos: [RoverPhoto]! { get set }
 }
 
-final class ManifestView: UIView {
+final class RoverPhotosView: UIView {
     
+    private let backgroundImageContainer: UIImageView = UIImageView()
+            
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -37,13 +39,11 @@ final class ManifestView: UIView {
         return stackView
     }()
     
-    private let photosView = ManifestInfoView()
-    private let dayView = ManifestInfoView()
-    private let solView = ManifestInfoView()
+    private let photosView = InfoView()
+    private let dayView = InfoView()
+    private let solView = InfoView()
     
-    weak var controller: ManifestController!
-    
-    var manifest: ManifestModel.Manifest! {
+    var manifest: Manifest! {
         didSet {
             titleLabel.text = manifest.name.uppercased()
             dateLabel.text = "launch at \(manifest.launchDateManifestString)"
@@ -51,12 +51,18 @@ final class ManifestView: UIView {
             photosView.textLabel.text = "Photos"
             dayView.numberLabel.text = manifest.amountOfDaysString
             dayView.textLabel.text = "Day"
-            solView.numberLabel.text = manifest.maxSolString 
+            solView.numberLabel.text = manifest.maxSolString
             solView.textLabel.text = "Sol"
         }
     }
     
-    var photos: [ManifestModel.RoverPhoto]! {
+    var backgroundImage: UIImage? {
+        didSet {
+            backgroundImageContainer.image = backgroundImage
+        }
+    }
+    
+    var photos: [RoverPhoto]! {
         didSet {
             print(photos)
         }
@@ -66,6 +72,7 @@ final class ManifestView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        print("init view")
         
         configureAppearance()
         addSubviews()
@@ -81,16 +88,15 @@ final class ManifestView: UIView {
     }
     
     private func configureAppearance() {
-        backgroundColor = .white
-        
         [
             titleLabel,
             dateLabel,
-        ].forEach(addShadows)
+        ].forEach { $0.addSystemShadows() }
     }
     
     private func addSubviews() {
         [
+            backgroundImageContainer,
             titleLabel,
             dateLabel,
             stackView,
@@ -104,6 +110,10 @@ final class ManifestView: UIView {
     }
     
     private func addConstraints() {
+        backgroundImageContainer.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).offset(unit * 24)
             $0.leading.trailing.equalToSuperview().inset(unit * 20)
@@ -130,13 +140,6 @@ final class ManifestView: UIView {
             }
         }
     }
-    
-    private func addShadows(to label: UILabel) {
-        label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowRadius = 3.0
-        label.layer.shadowOpacity = 1.0
-        label.layer.shadowOffset = CGSize(width: 2, height: 2)
-    }
 }
 
-extension ManifestView: ManifestViewProtocol {}
+extension RoverPhotosView: RoverPhotosViewProtocol {}

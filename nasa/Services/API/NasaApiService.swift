@@ -7,20 +7,20 @@
 
 import Foundation
 
-protocol ManifestServiceProtocol: AnyObject {
-    func getManifest(for rover: RoverType, completion: @escaping (ManifestModel.Manifest?, Error?) -> Void)
+protocol NasaApiServiceProtocol: AnyObject {
+    func getManifest(for rover: RoverType, completion: @escaping (Manifest?, Error?) -> Void)
     func getPhotosBySol(rover: RoverType,
                         sol: Int,
                         page: Int,
-                        completion: @escaping (ManifestModel.RoverPhotos?, Error?) -> Void)
+                        completion: @escaping (RoverPhotos?, Error?) -> Void)
     func getPhotosByEarthDate(rover: RoverType, date: Date,
                               page: Int,
-                              completion: @escaping (ManifestModel.RoverPhotos?, Error?) -> Void)
+                              completion: @escaping (RoverPhotos?, Error?) -> Void)
 }
 
-final class ManifestService: ManifestServiceProtocol {
-    func getManifest(for rover: RoverType, completion: @escaping (ManifestModel.Manifest?, Error?) -> Void) {
-        let url = URLProvider(endpoint: .manifest(rover: rover)).url
+final class NasaApiService: NasaApiServiceProtocol {
+    func getManifest(for rover: RoverType, completion: @escaping (Manifest?, Error?) -> Void) {
+        let url = URLService(endpoint: .manifest(rover: rover)).url
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -30,7 +30,7 @@ final class ManifestService: ManifestServiceProtocol {
             }
             
             guard let data = data else { return }
-            let manifest = try? JSONDecoder().decode(ManifestModel.ManifestResponse.self, from: data)
+            let manifest = try? JSONDecoder().decode(ManifestResponse.self, from: data)
             completion(manifest?.photoManifest, nil)
         }
         .resume()
@@ -39,8 +39,8 @@ final class ManifestService: ManifestServiceProtocol {
     func getPhotosBySol(rover: RoverType,
                         sol: Int,
                         page: Int,
-                        completion: @escaping (ManifestModel.RoverPhotos?, Error?) -> Void) {
-        let url = URLProvider(endpoint: .photosbySol(rover: rover, sol: sol, page: page)).url
+                        completion: @escaping (RoverPhotos?, Error?) -> Void) {
+        let url = URLService(endpoint: .photosbySol(rover: rover, sol: sol, page: page)).url
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -50,7 +50,7 @@ final class ManifestService: ManifestServiceProtocol {
             }
             
             guard let data = data else { return }
-            let roverPhotos = try? JSONDecoder().decode(ManifestModel.RoverPhotos.self, from: data)
+            let roverPhotos = try? JSONDecoder().decode(RoverPhotos.self, from: data)
             completion(roverPhotos, nil)
         }
         .resume()
@@ -59,8 +59,8 @@ final class ManifestService: ManifestServiceProtocol {
     func getPhotosByEarthDate(rover: RoverType,
                               date: Date,
                               page: Int,
-                              completion: @escaping (ManifestModel.RoverPhotos?, Error?) -> Void) {
-        let url = URLProvider(endpoint: .photosByDate(rover: rover, date: date, page: page)).url
+                              completion: @escaping (RoverPhotos?, Error?) -> Void) {
+        let url = URLService(endpoint: .photosByDate(rover: rover, date: date, page: page)).url
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -70,7 +70,7 @@ final class ManifestService: ManifestServiceProtocol {
             }
             
             guard let data = data else { return }
-            let roverPhotos = try? JSONDecoder().decode(ManifestModel.RoverPhotos.self, from: data)
+            let roverPhotos = try? JSONDecoder().decode(RoverPhotos.self, from: data)
             completion(roverPhotos, nil)
         }
         .resume()

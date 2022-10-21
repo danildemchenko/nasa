@@ -91,7 +91,7 @@ final class TopRoversView: UIView {
 
                 switch roverImageView {
                 case self.topImageView: transform = transform.translatedBy(x: -offset * 3, y: -offset * 32)
-                case self.leftImageView: transform = transform.translatedBy(x: -offset * 37, y: -offset * 37)
+                case self.leftImageView: transform = transform.translatedBy(x: -offset * 37, y: -offset * 43)
                 case self.rightImageView: transform = transform.translatedBy(x: offset * 17, y: 0)
                 default: break
                 }

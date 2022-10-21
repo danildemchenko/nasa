@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ManifestInfoView: UIView {
+final class InfoView: UIView {
     
     let numberLabel: UILabel = {
         let label = UILabel()
