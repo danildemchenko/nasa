@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
-        let homeController = HomeController(homeView: HomeView(), model: HomeModel())
+        let homeModel = HomeModel(nasaApiService: NasaApiService(), storageService: StorageService())
+        let homeController = HomeController(homeView: HomeView(), model: homeModel)
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

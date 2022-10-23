@@ -15,11 +15,17 @@ enum Constants {
         static let secondary = UIColor(hexString: "536DFE")
     }
     
-    enum PrimaryDateFormatter {
-        static let request: DateFormatter = {
+    enum CustomDataFormatter {
+        static var request: DateFormatter {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             return dateFormatter
-        }()
+        }
+        
+        static var manifest: DateFormatter {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            return dateFormatter
+        }
     }
 }

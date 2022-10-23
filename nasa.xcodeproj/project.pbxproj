@@ -11,14 +11,26 @@
 		2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447D28F1EECA00519341 /* UIFont + ext.swift */; };
 		2C10448028F1EF0A00519341 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447F28F1EF0A00519341 /* Constants.swift */; };
 		2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10448128F1EF4E00519341 /* UIColor + ext.swift */; };
+		2C6BEF452900097D002DC29F /* SF-Pro-Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C6BEF432900097D002DC29F /* SF-Pro-Display-Bold.ttf */; };
+		2C6BEF462900097D002DC29F /* SF-Pro-Display-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C6BEF442900097D002DC29F /* SF-Pro-Display-Regular.ttf */; };
+		2C6BEF492900252C002DC29F /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BEF482900252C002DC29F /* InfoView.swift */; };
+		2C74C12328FF346C00F3E914 /* RoverPhotosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74C12228FF346C00F3E914 /* RoverPhotosModel.swift */; };
+		2C74C12528FF3BBF00F3E914 /* NasaApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74C12428FF3BBF00F3E914 /* NasaApiService.swift */; };
+		2C74C12728FF463E00F3E914 /* RoverPhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74C12628FF463E00F3E914 /* RoverPhotosController.swift */; };
+		2C74C12928FFD7F900F3E914 /* RoverPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C74C12828FFD7F900F3E914 /* RoverPhotosView.swift */; };
+		2C7BE8CD2902AEBC00B09AFA /* RoverType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BE8CC2902AEBC00B09AFA /* RoverType.swift */; };
+		2C7BE8CF2902B22700B09AFA /* Manifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BE8CE2902B22700B09AFA /* Manifest.swift */; };
+		2C7BE8D12902B31900B09AFA /* RoverPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BE8D02902B31900B09AFA /* RoverPhoto.swift */; };
+		2C7BE8D5290308D800B09AFA /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BE8D4290308D800B09AFA /* UIView + ext.swift */; };
 		2CAF9D2428F960F700ED9892 /* TopRoversView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9D2328F960F700ED9892 /* TopRoversView.swift */; };
 		2CAF9D2928F9B06C00ED9892 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9D2828F9B06C00ED9892 /* Localization.swift */; };
 		2CAF9D2A28F9B1E200ED9892 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2CAF9D2C28F9B1E200ED9892 /* Localizable.strings */; };
 		2CAF9D3128FAAD9300ED9892 /* OpportunityConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3028FAAD9300ED9892 /* OpportunityConfig.plist */; };
 		2CAF9D3328FAB94500ED9892 /* ConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3228FAB94500ED9892 /* ConfigurationService.swift */; };
-		2CAF9D3728FADB2000ED9892 /* URLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3628FADB2000ED9892 /* URLProvider.swift */; };
+		2CAF9D3728FADB2000ED9892 /* URLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3628FADB2000ED9892 /* URLService.swift */; };
 		2CAF9D3928FB1CA300ED9892 /* SpiritConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3828FB1CA300ED9892 /* SpiritConfig.plist */; };
 		2CAF9D3B28FB1D0E00ED9892 /* CuriosityConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CAF9D3A28FB1D0E00ED9892 /* CuriosityConfig.plist */; };
+		2CD673C6290145180088869A /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD673C5290145180088869A /* StorageService.swift */; };
 		2CDD169328F0878200910A32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD169228F0878200910A32 /* AppDelegate.swift */; };
 		2CDD169528F0878200910A32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD169428F0878200910A32 /* SceneDelegate.swift */; };
 		2CDD169C28F0878300910A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDD169B28F0878300910A32 /* Assets.xcassets */; };
@@ -34,14 +46,26 @@
 		2C10447D28F1EECA00519341 /* UIFont + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + ext.swift"; sourceTree = "<group>"; };
 		2C10447F28F1EF0A00519341 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2C10448128F1EF4E00519341 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
+		2C6BEF432900097D002DC29F /* SF-Pro-Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Bold.ttf"; sourceTree = "<group>"; };
+		2C6BEF442900097D002DC29F /* SF-Pro-Display-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.ttf"; sourceTree = "<group>"; };
+		2C6BEF482900252C002DC29F /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		2C74C12228FF346C00F3E914 /* RoverPhotosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotosModel.swift; sourceTree = "<group>"; };
+		2C74C12428FF3BBF00F3E914 /* NasaApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaApiService.swift; sourceTree = "<group>"; };
+		2C74C12628FF463E00F3E914 /* RoverPhotosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotosController.swift; sourceTree = "<group>"; };
+		2C74C12828FFD7F900F3E914 /* RoverPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotosView.swift; sourceTree = "<group>"; };
+		2C7BE8CC2902AEBC00B09AFA /* RoverType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverType.swift; sourceTree = "<group>"; };
+		2C7BE8CE2902B22700B09AFA /* Manifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest.swift; sourceTree = "<group>"; };
+		2C7BE8D02902B31900B09AFA /* RoverPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhoto.swift; sourceTree = "<group>"; };
+		2C7BE8D4290308D800B09AFA /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		2CAF9D2328F960F700ED9892 /* TopRoversView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRoversView.swift; sourceTree = "<group>"; };
 		2CAF9D2828F9B06C00ED9892 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		2CAF9D2B28F9B1E200ED9892 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2CAF9D3028FAAD9300ED9892 /* OpportunityConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OpportunityConfig.plist; sourceTree = "<group>"; };
 		2CAF9D3228FAB94500ED9892 /* ConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationService.swift; sourceTree = "<group>"; };
-		2CAF9D3628FADB2000ED9892 /* URLProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProvider.swift; sourceTree = "<group>"; };
+		2CAF9D3628FADB2000ED9892 /* URLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLService.swift; sourceTree = "<group>"; };
 		2CAF9D3828FB1CA300ED9892 /* SpiritConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SpiritConfig.plist; sourceTree = "<group>"; };
 		2CAF9D3A28FB1D0E00ED9892 /* CuriosityConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CuriosityConfig.plist; sourceTree = "<group>"; };
+		2CD673C5290145180088869A /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		2CDD168F28F0878200910A32 /* nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nasa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CDD169228F0878200910A32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CDD169428F0878200910A32 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +122,7 @@
 		2C10448628F2F13100519341 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				2C6BEF3E290008F7002DC29F /* Fonts */,
 				2CAF9D2D28FAAC2B00ED9892 /* Config */,
 				2CAF9D2528F9AFF900ED9892 /* Localization */,
 				2CDD169B28F0878300910A32 /* Assets.xcassets */,
@@ -107,6 +132,23 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		2C6BEF3E290008F7002DC29F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2C6BEF432900097D002DC29F /* SF-Pro-Display-Bold.ttf */,
+				2C6BEF442900097D002DC29F /* SF-Pro-Display-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		2C6BEF4729002512002DC29F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C6BEF482900252C002DC29F /* InfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2C74C11F28FF156500F3E914 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +156,44 @@
 				2CAF9D2328F960F700ED9892 /* TopRoversView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C74C12128FF345200F3E914 /* RoverPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				2C6BEF4729002512002DC29F /* Views */,
+				2C74C12228FF346C00F3E914 /* RoverPhotosModel.swift */,
+				2C74C12628FF463E00F3E914 /* RoverPhotosController.swift */,
+				2C74C12828FFD7F900F3E914 /* RoverPhotosView.swift */,
+			);
+			path = RoverPhotos;
+			sourceTree = "<group>";
+		};
+		2C7BE8CB2902AEB200B09AFA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C7BE8CC2902AEBC00B09AFA /* RoverType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2C7BE8D22902D6EE00B09AFA /* API */ = {
+			isa = PBXGroup;
+			children = (
+				2C7BE8D32902D6FC00B09AFA /* Models */,
+				2CAF9D3628FADB2000ED9892 /* URLService.swift */,
+				2C74C12428FF3BBF00F3E914 /* NasaApiService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		2C7BE8D32902D6FC00B09AFA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C7BE8CE2902B22700B09AFA /* Manifest.swift */,
+				2C7BE8D02902B31900B09AFA /* RoverPhoto.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2CAF9D2528F9AFF900ED9892 /* Localization */ = {
@@ -140,6 +220,7 @@
 			children = (
 				2C10447D28F1EECA00519341 /* UIFont + ext.swift */,
 				2C10448128F1EF4E00519341 /* UIColor + ext.swift */,
+				2C7BE8D4290308D800B09AFA /* UIView + ext.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -147,18 +228,11 @@
 		2CD6C3A028FD8ACD00EBF030 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2CD6C3A128FD8B2C00EBF030 /* Providers */,
+				2C7BE8D22902D6EE00B09AFA /* API */,
 				2CAF9D3228FAB94500ED9892 /* ConfigurationService.swift */,
+				2CD673C5290145180088869A /* StorageService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		2CD6C3A128FD8B2C00EBF030 /* Providers */ = {
-			isa = PBXGroup;
-			children = (
-				2CAF9D3628FADB2000ED9892 /* URLProvider.swift */,
-			);
-			path = Providers;
 			sourceTree = "<group>";
 		};
 		2CDD168628F0878200910A32 = {
@@ -182,10 +256,12 @@
 		2CDD169128F0878200910A32 /* nasa */ = {
 			isa = PBXGroup;
 			children = (
+				2C7BE8CB2902AEB200B09AFA /* Models */,
 				2C10448328F1F89700519341 /* Application */,
 				2C10448628F2F13100519341 /* SupportingFiles */,
 				2C10447C28F1ED5D00519341 /* Helpers */,
 				2CDD16AC28F0A6C600910A32 /* Home */,
+				2C74C12128FF345200F3E914 /* RoverPhotos */,
 				2CD6C3A028FD8ACD00EBF030 /* Services */,
 			);
 			path = nasa;
@@ -284,6 +360,8 @@
 				2CAF9D3128FAAD9300ED9892 /* OpportunityConfig.plist in Resources */,
 				2CAF9D2A28F9B1E200ED9892 /* Localizable.strings in Resources */,
 				2CDD169C28F0878300910A32 /* Assets.xcassets in Resources */,
+				2C6BEF452900097D002DC29F /* SF-Pro-Display-Bold.ttf in Resources */,
+				2C6BEF462900097D002DC29F /* SF-Pro-Display-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,18 +414,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C74C12328FF346C00F3E914 /* RoverPhotosModel.swift in Sources */,
 				2CDD16A728F087D400910A32 /* HomeController.swift in Sources */,
+				2C74C12528FF3BBF00F3E914 /* NasaApiService.swift in Sources */,
+				2C74C12928FFD7F900F3E914 /* RoverPhotosView.swift in Sources */,
 				2CAF9D2928F9B06C00ED9892 /* Localization.swift in Sources */,
+				2CD673C6290145180088869A /* StorageService.swift in Sources */,
+				2C6BEF492900252C002DC29F /* InfoView.swift in Sources */,
 				2CAF9D2428F960F700ED9892 /* TopRoversView.swift in Sources */,
+				2C7BE8CF2902B22700B09AFA /* Manifest.swift in Sources */,
 				2CDD16AB28F0A62E00910A32 /* HomeModel.swift in Sources */,
-				2CAF9D3728FADB2000ED9892 /* URLProvider.swift in Sources */,
+				2C7BE8D5290308D800B09AFA /* UIView + ext.swift in Sources */,
+				2CAF9D3728FADB2000ED9892 /* URLService.swift in Sources */,
 				2CAF9D3328FAB94500ED9892 /* ConfigurationService.swift in Sources */,
+				2C7BE8CD2902AEBC00B09AFA /* RoverType.swift in Sources */,
+				2C7BE8D12902B31900B09AFA /* RoverPhoto.swift in Sources */,
 				2C10447828F0C0E000519341 /* RoverCell.swift in Sources */,
 				2CDD169328F0878200910A32 /* AppDelegate.swift in Sources */,
 				2CDD16A928F0A1F800910A32 /* HomeView.swift in Sources */,
 				2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */,
 				2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */,
 				2CDD169528F0878200910A32 /* SceneDelegate.swift in Sources */,
+				2C74C12728FF463E00F3E914 /* RoverPhotosController.swift in Sources */,
 				2C10448028F1EF0A00519341 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

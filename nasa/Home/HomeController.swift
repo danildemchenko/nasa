@@ -22,7 +22,7 @@ final class HomeController: UIViewController {
     
     required init?(coder: NSCoder) {
         homeView = HomeView()
-        model = HomeModel()
+        model = HomeModel(nasaApiService: NasaApiService(), storageService: StorageService())
         
         super.init(coder: coder)
     }
@@ -45,5 +45,19 @@ final class HomeController: UIViewController {
     
     func selectedRover(_ rover: RoverType) {
         model.openRoverMissionPage(rover)
+    }
+    
+    func openRover(with manifest: Manifest, and rover: RoverType) {
+        let model = RoverPhotosModel(nasaApiService: NasaApiService())
+        let roverPhotosController = RoverPhotosController(model: model,
+                                                          roverPhotosView: RoverPhotosView(),
+                                                          rover: rover)
+        roverPhotosController.setupManifestData(manifest)
+        roverPhotosController.modalPresentationStyle = .overFullScreen
+        present(roverPhotosController, animated: true)
+    }
+    
+    func selectedIndexRover(_ index: Int) {
+        model.fetchManifest(for: RoverType(rawValue: index)!)
     }
 }
