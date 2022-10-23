@@ -37,12 +37,13 @@ extension HomeModel: HomeModelProtocol {
             storageService.getStoredObject(with: "manifest-\(rover.stringValue)") {
             self.controller.openRover(with: storedManifest, and: rover)
         } else {
-            nasaApiService.getManifest(for: rover) { [weak self] manifest, error in
+            nasaApiService.getManifest(for: rover) { [weak self] manifestResponse, error in
                 DispatchQueue.main.async {
-                    if manifest?.manifestStatus == .complete {
-                        self?.storageService.store(object: manifest!, with: "manifest-\(rover.stringValue)")
+                    if manifestResponse?.photoManifest.manifestStatus == .complete {
+                        self?.storageService.store(object: manifestResponse?.photoManifest,
+                                                   with: "manifest-\(rover.stringValue)")
                     }
-                    self?.controller.openRover(with: manifest!, and: rover)
+                    self?.controller.openRover(with: manifestResponse!.photoManifest, and: rover)
                 }
             }
         }

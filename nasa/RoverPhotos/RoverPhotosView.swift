@@ -72,7 +72,6 @@ final class RoverPhotosView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("init view")
         
         configureAppearance()
         addSubviews()

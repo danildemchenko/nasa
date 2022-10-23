@@ -19,25 +19,15 @@ protocol HomeViewProtocol {
 // MARK: substituted main view
 final class HomeView: UIView, HomeViewProtocol {
     
-    weak var controller: HomeController!
-    
-    // MARK: HARDCODED STATIC DATA
-    private let roversData: [RoverCell.CellConfig] = [
-        .init(title: Localization.MainScreen.Rover.Top.title,
-              description: Localization.MainScreen.Rover.Top.description),
-        .init(title: Localization.MainScreen.Rover.Left.title,
-            description: Localization.MainScreen.Rover.Left.description),
-        .init(title: Localization.MainScreen.Rover.Right.title,
-            description: Localization.MainScreen.Rover.Right.description),
-    ]
-    
-    private var currentItemIndex = 0
-    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let topRoversView = TopRoversView()
     
-    static let unit = UIScreen.main.bounds.width / 375
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.backgroundColor = .white.withAlphaComponent(0.3)
+        return spinner
+    }()
     
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
@@ -83,6 +73,23 @@ final class HomeView: UIView, HomeViewProtocol {
         return button
     }()
     
+    weak var controller: HomeController!
+    
+    // MARK: HARDCODED STATIC DATA
+    private let roversData: [RoverCell.CellConfig] = [
+        .init(title: Localization.MainScreen.Rover.Top.title,
+              description: Localization.MainScreen.Rover.Top.description),
+        .init(title: Localization.MainScreen.Rover.Left.title,
+            description: Localization.MainScreen.Rover.Left.description),
+        .init(title: Localization.MainScreen.Rover.Right.title,
+            description: Localization.MainScreen.Rover.Right.description),
+    ]
+    
+    private var currentItemIndex = 0
+
+    static let unit = UIScreen.main.bounds.width / 375
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -124,6 +131,7 @@ final class HomeView: UIView, HomeViewProtocol {
     
     private func addSubviews() {
         addSubview(scrollView)
+        addSubview(spinner)
         scrollView.addSubview(contentView)
         
         [
@@ -143,7 +151,7 @@ final class HomeView: UIView, HomeViewProtocol {
             $0.leading.trailing.bottom.top.equalToSuperview()
             $0.width.equalTo(snp.width)
         }
-        
+
         topRoversView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(contentView.snp.width).multipliedBy(1.25)
@@ -173,6 +181,11 @@ final class HomeView: UIView, HomeViewProtocol {
         calendarButton.snp.makeConstraints {
             $0.height.equalTo(fetchAllButton)
             $0.width.equalTo(80)
+        }
+        
+        spinner.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -225,6 +238,7 @@ extension HomeView: TopRoversViewDelegate {
 
 @objc extension HomeView {
     func fetchAllHandler() {
+        spinner.startAnimating()
         controller.selectedIndexRover(currentItemIndex)
     }
 }
