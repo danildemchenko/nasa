@@ -164,7 +164,8 @@ final class RoverPhotosView: UIView {
         stackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(unitW * 27)
             $0.height.equalTo(unitW * 55)
-            $0.bottom.equalTo(bottomBar.snp.top).offset(-38)
+            $0.bottom.equalTo(bottomBar.snp.top).offset(-38).priority(99)
+            $0.top.greaterThanOrEqualTo(dateLabel.snp.bottom).offset(20).priority(100)
         }
         
         [
@@ -235,10 +236,9 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
                     self.widthConstraint.constant = self.bottomBarUpdatedWidth
                     self.bottomBar.backgroundColor = .white
                 } else if self.heightConstraint.constant > barMiddleHeight && self.isBarDraggingDown == false {
-                    let titleLabelOriginY = self.titleLabel.frame.origin.y
-                    let diff =
-                        (self.safeAreaLayoutGuide.layoutFrame.size.height -  titleLabelOriginY - titleLabelOriginY / 2)
-                        * self.unitH
+                    let dateLabelOriginY = self.dateLabel.frame.origin.y
+                    let diff = UIScreen.main.bounds.height - dateLabelOriginY - 10
+                    
                     self.heightConstraint.constant = diff
                     self.widthConstraint.constant = self.bottomBarUpdatedWidth
                     self.bottomBar.backgroundColor = .white
