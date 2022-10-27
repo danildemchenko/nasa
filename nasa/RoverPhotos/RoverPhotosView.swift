@@ -14,7 +14,7 @@ protocol RoverPhotosViewProtocol {
 }
 
 final class RoverPhotosView: UIView {
-
+    
     private let backgroundImageContainer: UIImageView = UIImageView()
     private let photosView = InfoView()
     private let dayView = InfoView()
@@ -58,12 +58,9 @@ final class RoverPhotosView: UIView {
     
     
     private var isBarDraggingDown = false
-    private var heightConstraint: NSLayoutConstraint = .init()
-    private var widthConstraint: NSLayoutConstraint = .init()
     
-    private lazy var barBottomHeight: CGFloat = unitH * 90
-    private lazy var bottomBarStartWidth = UIScreen.main.bounds.width - 36 * unitW
-    private lazy var bottomBarUpdatedWidth = UIScreen.main.bounds.width
+    private lazy var barCurrentHeight: CGFloat = unitH * 90
+    private lazy var barCurrentWidth = UIScreen.main.bounds.width - 36 * unitW
     
     private let unitH = UIScreen.main.bounds.height / 812
     private let unitW = UIScreen.main.bounds.width / 375
@@ -178,16 +175,12 @@ final class RoverPhotosView: UIView {
             }
         }
         
-        heightConstraint = bottomBar.heightAnchor.constraint(equalToConstant: barBottomHeight)
-        widthConstraint = bottomBar.widthAnchor.constraint(equalToConstant: bottomBarStartWidth)
-        bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            bottomBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 20),
-            bottomBar.centerXAnchor.constraint(equalTo: centerXAnchor),
-            widthConstraint,
-            heightConstraint,
-        ])
+        bottomBar.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(20)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(barCurrentWidth)
+            $0.height.equalTo(barCurrentHeight)
+        }
         
         upperBottomBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -206,55 +199,77 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
 
 @objc extension RoverPhotosView {
     @objc func bottomBarGestureHandler(_ recognizer: UIPanGestureRecognizer) {
+        let barMiddleHeight: CGFloat = unitH * 473
+        let barMinHeight: CGFloat = unitH * 90
+        let barMaxHeight: CGFloat = unitH * 813
+        let barMaxWidth = UIScreen.main.bounds.width
+        let barMinWidth = UIScreen.main.bounds.width - 36 * unitW
+        let middleHeighBorder = barMiddleHeight - 200
+        
         switch recognizer.state {
         case .changed:
-            let safeAreaHeight = safeAreaLayoutGuide.layoutFrame.height
             let translation = recognizer.translation(in: self)
-            
+     
             if translation.y < 0 {
                 isBarDraggingDown = false
             } else {
-                if (heightConstraint.constant < safeAreaHeight) {
+                if (barCurrentHeight < barMaxHeight) {
                     isBarDraggingDown = true
                 }
             }
             
             UIView.animate(withDuration: 0.25, delay: 0) {
-                self.heightConstraint.constant -= translation.y
+                self.bottomBar.backgroundColor = .white
+                self.barCurrentHeight -= translation.y
+                
+                if self.barCurrentHeight < barMiddleHeight {
+                    self.barCurrentWidth -= translation.y / 4
+                    self.barCurrentWidth = min(max(self.barCurrentWidth, barMinWidth), barMaxWidth)
+                }
+        
+                self.bottomBar.snp.updateConstraints {
+                    $0.height.equalTo(self.barCurrentHeight)
+                    $0.width.equalTo(self.barCurrentWidth)
+                }
                 self.layoutIfNeeded()
             }
             
             recognizer.setTranslation(.zero, in: self)
             
         case .ended:
-            let barMiddleHeight: CGFloat = unitH * 473
-            let barTopHeight: CGFloat = unitH * 813
-            
-            UIView.animate(withDuration: 0.35, delay: 0) {
-                if self.heightConstraint.constant < barMiddleHeight && self.isBarDraggingDown == false {
-                    self.heightConstraint.constant = barMiddleHeight
-                    self.widthConstraint.constant = self.bottomBarUpdatedWidth
-                    self.bottomBar.backgroundColor = .white
-                } else if self.heightConstraint.constant > barMiddleHeight && self.isBarDraggingDown == false {
-                    let dateLabelOriginY = self.dateLabel.frame.origin.y
-                    let diff = UIScreen.main.bounds.height - dateLabelOriginY - 10
-                    
-                    self.heightConstraint.constant = diff
-                    self.widthConstraint.constant = self.bottomBarUpdatedWidth
-                    self.bottomBar.backgroundColor = .white
-                } else if self.heightConstraint.constant < barMiddleHeight - 200 && self.isBarDraggingDown == true {
-                    self.heightConstraint.constant = self.barBottomHeight
-                    self.widthConstraint.constant = self.bottomBarStartWidth
+            if (self.barCurrentHeight < barMaxHeight &&
+                self.barCurrentHeight > middleHeighBorder &&
+                isBarDraggingDown == true) ||
+                (self.barCurrentHeight < barMiddleHeight && isBarDraggingDown == false) {
+                    self.barCurrentHeight = barMiddleHeight
+                    self.updateBar(height: barCurrentHeight)
+            } else if barCurrentHeight  > barMiddleHeight && isBarDraggingDown == false {
+                let dateLabelOriginY = dateLabel.frame.origin.y
+                let diff = UIScreen.main.bounds.height - dateLabelOriginY - 10
+                barCurrentHeight  = diff
+                updateBar(height: barCurrentHeight)
+            } else if self.barCurrentHeight < middleHeighBorder && isBarDraggingDown == true {
+                barCurrentHeight = barMinHeight
+                updateBar(height: barCurrentHeight, width: barMinWidth)
+                
+                UIView.animate(withDuration: 0.35) {
                     self.bottomBar.backgroundColor = .white.withAlphaComponent(0.8)
-                } else if self.heightConstraint.constant < barTopHeight && self.isBarDraggingDown == true {
-                    self.heightConstraint.constant = barMiddleHeight
-                    self.widthConstraint.constant = self.bottomBarUpdatedWidth
-                    self.bottomBar.backgroundColor = .white
                 }
-                self.layoutIfNeeded()
             }
         default:
             break
+        }
+    }
+    
+    private func updateBar(height: CGFloat, width: CGFloat = UIScreen.main.bounds.width) {
+        UIView.animate(withDuration: 0.35) {
+            self.barCurrentWidth = width
+            self.bottomBar.snp.updateConstraints {
+                $0.height.equalTo(height)
+                $0.width.equalTo(self.barCurrentWidth)
+            }
+            
+            self.layoutIfNeeded()
         }
     }
 }
