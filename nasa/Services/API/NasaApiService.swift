@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NasaApiServiceProtocol: AnyObject {
-    func getManifest(for rover: RoverType, completion: @escaping (Manifest?, Error?) -> Void)
+    func getManifest(for rover: RoverType, completion: @escaping (ManifestResponse?, Error?) -> Void)
     func getPhotosBySol(rover: RoverType,
                         sol: Int,
                         page: Int,
@@ -19,21 +19,11 @@ protocol NasaApiServiceProtocol: AnyObject {
 }
 
 final class NasaApiService: NasaApiServiceProtocol {
-    func getManifest(for rover: RoverType, completion: @escaping (Manifest?, Error?) -> Void) {
+    func getManifest(for rover: RoverType, completion: @escaping (ManifestResponse?, Error?) -> Void) {
         let url = URLService(endpoint: .manifest(rover: rover)).url
         let request = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            
-            guard let data = data else { return }
-            let manifest = try? JSONDecoder().decode(ManifestResponse.self, from: data)
-            completion(manifest?.photoManifest, nil)
-        }
-        .resume()
+        make(request: request, completion: completion)
     }
     
     func getPhotosBySol(rover: RoverType,
@@ -43,17 +33,7 @@ final class NasaApiService: NasaApiServiceProtocol {
         let url = URLService(endpoint: .photosbySol(rover: rover, sol: sol, page: page)).url
         let request = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            
-            guard let data = data else { return }
-            let roverPhotos = try? JSONDecoder().decode(RoverPhotos.self, from: data)
-            completion(roverPhotos, nil)
-        }
-        .resume()
+        make(request: request, completion: completion)
     }
     
     func getPhotosByEarthDate(rover: RoverType,
@@ -63,6 +43,10 @@ final class NasaApiService: NasaApiServiceProtocol {
         let url = URLService(endpoint: .photosByDate(rover: rover, date: date, page: page)).url
         let request = URLRequest(url: url)
         
+        make(request: request, completion: completion)
+    }
+    
+    private func make<T: Decodable>(request: URLRequest, completion: @escaping (T?, Error?) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(nil, error)
@@ -70,8 +54,8 @@ final class NasaApiService: NasaApiServiceProtocol {
             }
             
             guard let data = data else { return }
-            let roverPhotos = try? JSONDecoder().decode(RoverPhotos.self, from: data)
-            completion(roverPhotos, nil)
+            let decodableData = try? JSONDecoder().decode(T.self, from: data)
+            completion(decodableData, nil)
         }
         .resume()
     }

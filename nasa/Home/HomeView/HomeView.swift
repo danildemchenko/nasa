@@ -14,30 +14,21 @@ protocol TopRoversViewDelegate: AnyObject {
 
 protocol HomeViewProtocol {
     var controller: HomeController! { get set }
+    func updateCurrentRover(with index: Int, animated: Bool)
 }
 
 // MARK: substituted main view
 final class HomeView: UIView, HomeViewProtocol {
     
-    weak var controller: HomeController!
-    
-    // MARK: HARDCODED STATIC DATA
-    private let roversData: [RoverCell.CellConfig] = [
-        .init(title: Localization.MainScreen.Rover.Top.title,
-              description: Localization.MainScreen.Rover.Top.description),
-        .init(title: Localization.MainScreen.Rover.Left.title,
-            description: Localization.MainScreen.Rover.Left.description),
-        .init(title: Localization.MainScreen.Rover.Right.title,
-            description: Localization.MainScreen.Rover.Right.description),
-    ]
-    
-    private var currentItemIndex = 0
-    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let topRoversView = TopRoversView()
     
-    static let unit = UIScreen.main.bounds.width / 375
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.backgroundColor = .white.withAlphaComponent(0.3)
+        return spinner
+    }()
     
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
@@ -83,6 +74,20 @@ final class HomeView: UIView, HomeViewProtocol {
         return button
     }()
     
+    weak var controller: HomeController!
+    
+    // MARK: HARDCODED STATIC DATA
+    private let roversData: [RoverCell.CellConfig] = [
+        .init(title: Localization.MainScreen.Rover.Top.title,
+              description: Localization.MainScreen.Rover.Top.description),
+        .init(title: Localization.MainScreen.Rover.Left.title,
+            description: Localization.MainScreen.Rover.Left.description),
+        .init(title: Localization.MainScreen.Rover.Right.title,
+            description: Localization.MainScreen.Rover.Right.description),
+    ]
+    
+    static let unit = UIScreen.main.bounds.width / 375
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -124,6 +129,7 @@ final class HomeView: UIView, HomeViewProtocol {
     
     private func addSubviews() {
         addSubview(scrollView)
+        addSubview(spinner)
         scrollView.addSubview(contentView)
         
         [
@@ -143,7 +149,7 @@ final class HomeView: UIView, HomeViewProtocol {
             $0.leading.trailing.bottom.top.equalToSuperview()
             $0.width.equalTo(snp.width)
         }
-        
+
         topRoversView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(contentView.snp.width).multipliedBy(1.25)
@@ -174,6 +180,11 @@ final class HomeView: UIView, HomeViewProtocol {
             $0.height.equalTo(fetchAllButton)
             $0.width.equalTo(80)
         }
+        
+        spinner.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.edges.equalToSuperview()
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -183,8 +194,13 @@ final class HomeView: UIView, HomeViewProtocol {
         
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-        currentItemIndex = indexPath.item
-        topRoversView.animate(selectedRoverTag: currentItemIndex)
+        controller.selectRoverToUpdate(with: indexPath.item)
+    }
+    
+    func updateCurrentRover(with index: Int, animated: Bool = true) {
+        let animationDuration = animated ? 0.25 : 0
+        topRoversView.animate(selectedRoverTag: index, duration: animationDuration)
+        collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .right, animated: animated)
     }
 }
 
@@ -211,20 +227,20 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        controller.selectedRover(RoverType(rawValue: indexPath.item)!)
+        controller.selectedRoverToOpen(RoverType(rawValue: indexPath.item)!)
     }
 }
 
 // MARK: TopRoversViewDelegate
 extension HomeView: TopRoversViewDelegate {
     func tapAt(rover: RoverType) {
-        collectionView.scrollToItem(at: .init(row: rover.rawValue, section: 0), at: .bottom, animated: true)
-        currentItemIndex = rover.rawValue
+        controller.selectRoverToUpdate(with: rover.rawValue)
     }
 }
 
 @objc extension HomeView {
     func fetchAllHandler() {
-        controller.selectedIndexRover(currentItemIndex)
+        spinner.startAnimating()
+        controller.fetchManifest()
     }
 }

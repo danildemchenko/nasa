@@ -19,12 +19,10 @@ final class StorageService: StorageServiceProtocol {
         }
     }
     
-    func getStoredObject<T: Codable>(with key: String) -> T? {
-        if let savedManifest = UserDefaults.standard.object(forKey: key) as? Data {
-            if let loadedObject = try? JSONDecoder().decode(T.self, from: savedManifest) {
-                return loadedObject
-            }
+    func getStoredObject<T: Decodable>(with key: String) -> T? {
+        guard let savedManifest = UserDefaults.standard.object(forKey: key) as? Data else {
+            return nil
         }
-        return nil
+        return try? JSONDecoder().decode(T.self, from: savedManifest)
     }
 }
