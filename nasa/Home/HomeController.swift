@@ -35,6 +35,10 @@ final class HomeController: UIViewController {
     override func viewDidLoad() {
         model.controller = self
         homeView.controller = self
+        
+        DispatchQueue.main.async {
+            self.model.setupInitialRover()
+        }
     }
     
     func openMission(with url: URL) {
@@ -43,21 +47,33 @@ final class HomeController: UIViewController {
         present(safariController, animated: true)
     }
     
-    func selectedRover(_ rover: RoverType) {
+    func selectedRoverToOpen(_ rover: RoverType) {
         model.openRoverMissionPage(rover)
     }
     
-    func openRover(with manifest: Manifest, and rover: RoverType) {
-        let model = RoverPhotosModel(nasaApiService: NasaApiService())
-        let roverPhotosController = RoverPhotosController(model: model,
+    func openRover(with manifest: Manifest) {
+        let roverPhotosModel = RoverPhotosModel(nasaApiService: NasaApiService())
+        let roverPhotosController = RoverPhotosController(model: roverPhotosModel,
                                                           roverPhotosView: RoverPhotosView(),
-                                                          rover: rover)
+                                                          rover: model.selectedRover)
         roverPhotosController.setupManifestData(manifest)
         roverPhotosController.modalPresentationStyle = .overFullScreen
         present(roverPhotosController, animated: true)
     }
     
-    func selectedIndexRover(_ index: Int) {
-        model.fetchManifest(for: RoverType(rawValue: index)!)
+    func fetchManifest() {
+        model.fetchManifest()
+    }
+    
+    func selectRoverToUpdate(with index: Int) {
+        model.updateSelectedRover(RoverType(rawValue: index)!)
+    }
+    
+    func updateRover(rover: RoverType) {
+        homeView.updateCurrentRover(with: rover.rawValue, animated: true)
+    }
+    
+    func setupRover() {
+        homeView.updateCurrentRover(with: model.selectedRover.rawValue, animated: false)
     }
 }

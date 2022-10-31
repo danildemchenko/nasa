@@ -14,6 +14,7 @@ protocol TopRoversViewDelegate: AnyObject {
 
 protocol HomeViewProtocol {
     var controller: HomeController! { get set }
+    func updateCurrentRover(with index: Int, animated: Bool)
 }
 
 // MARK: substituted main view
@@ -85,10 +86,7 @@ final class HomeView: UIView, HomeViewProtocol {
             description: Localization.MainScreen.Rover.Right.description),
     ]
     
-    private var currentItemIndex = 0
-
     static let unit = UIScreen.main.bounds.width / 375
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -196,8 +194,13 @@ final class HomeView: UIView, HomeViewProtocol {
         
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-        currentItemIndex = indexPath.item
-        topRoversView.animate(selectedRoverTag: currentItemIndex)
+        controller.selectRoverToUpdate(with: indexPath.item)
+    }
+    
+    func updateCurrentRover(with index: Int, animated: Bool = true) {
+        let animationDuration = animated ? 0.25 : 0
+        topRoversView.animate(selectedRoverTag: index, duration: animationDuration)
+        collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .right, animated: animated)
     }
 }
 
@@ -224,21 +227,20 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        controller.selectedRover(RoverType(rawValue: indexPath.item)!)
+        controller.selectedRoverToOpen(RoverType(rawValue: indexPath.item)!)
     }
 }
 
 // MARK: TopRoversViewDelegate
 extension HomeView: TopRoversViewDelegate {
     func tapAt(rover: RoverType) {
-        collectionView.scrollToItem(at: .init(row: rover.rawValue, section: 0), at: .bottom, animated: true)
-        currentItemIndex = rover.rawValue
+        controller.selectRoverToUpdate(with: rover.rawValue)
     }
 }
 
 @objc extension HomeView {
     func fetchAllHandler() {
         spinner.startAnimating()
-        controller.selectedIndexRover(currentItemIndex)
+        controller.fetchManifest()
     }
 }

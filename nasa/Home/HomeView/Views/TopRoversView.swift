@@ -76,7 +76,7 @@ final class TopRoversView: UIView {
         }
     }
     
-    func animate(selectedRoverTag: Int) {
+    func animate(selectedRoverTag: Int, duration: CGFloat = 0.25) {
         [
             topImageView,
             leftImageView,
@@ -85,7 +85,7 @@ final class TopRoversView: UIView {
             let scaleFactor = selectedRoverTag == roverImageView.tag ? 1.35 : 1
             let offset: CGFloat = selectedRoverTag == roverImageView.tag ? HomeView.unit : 0
 
-            UIView.animate(withDuration: 0.25) {
+            UIView.animate(withDuration: duration) {
                 var transform = CGAffineTransform.identity
                 transform = transform.scaledBy(x: scaleFactor, y: scaleFactor)
 
@@ -136,6 +136,5 @@ final class TopRoversView: UIView {
         let touchLocation = sender.location(in: sender.view)
         let segment = checkTapSegment(point: touchLocation)
         delegate.tapAt(rover: .init(rawValue: segment.tag)!)
-        animate(selectedRoverTag: segment.tag)
     }
 }

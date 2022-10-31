@@ -52,7 +52,7 @@ final class RoverPhotosView: UIView {
     
     private let barHandle: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hexString: "979797").withAlphaComponent(0.5)
+        view.backgroundColor = .gray.withAlphaComponent(0.5)
         return view
     }()
     
@@ -106,25 +106,22 @@ final class RoverPhotosView: UIView {
         addConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        DispatchQueue.main.async {
-            self.barHandle.layer.cornerRadius = self.barHandle.frame.height / 2
-        }
-    }
-    
     private func configureAppearance() {
         [
             titleLabel,
             dateLabel,
         ].forEach { $0.addSystemShadows() }
+
+        DispatchQueue.main.async {
+            self.barHandle.layer.cornerRadius = self.barHandle.frame.height / 2
+        }
         
         upperBottomBar.addGestureRecognizer(UIPanGestureRecognizer(target: self,
                                                                    action: #selector(bottomBarGestureHandler(_:))))
     }
     
     private func addSubviews() {
+
         [
             backgroundImageContainer,
             titleLabel,
@@ -210,14 +207,8 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
         case .changed:
             let translation = recognizer.translation(in: self)
      
-            if translation.y < 0 {
-                isBarDraggingDown = false
-            } else {
-                if (barCurrentHeight < barMaxHeight) {
-                    isBarDraggingDown = true
-                }
-            }
-            
+            isBarDraggingDown = translation.y > 0 && barCurrentHeight < barMaxHeight
+
             UIView.animate(withDuration: 0.25, delay: 0) {
                 self.bottomBar.backgroundColor = .white
                 self.barCurrentHeight -= translation.y
