@@ -114,7 +114,7 @@ final class RoverPhotosViewController: UIViewController {
     }
     
     private func configureAppearance() {
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "photoId")
+        collectionView.register(cellType: UICollectionViewCell.self)
         collectionView.backgroundColor = .brown
         dataSource = generateDataSource()
         
@@ -223,8 +223,7 @@ final class RoverPhotosViewController: UIViewController {
                 
                 switch item {
                 case .photo(let item):
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoId",
-                                                                  for: indexPath) as! UICollectionViewCell
+                    let cell = collectionView.cell(indexPath: indexPath)
                     cell.backgroundColor = .red
                     //configure cell with item
                     return cell
