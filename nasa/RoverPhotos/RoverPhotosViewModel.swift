@@ -27,6 +27,7 @@ final class RoverPhotosViewModel {
     init(provider: MoyaProvider<NasaApiService>) {
         self.provider = provider
         
+        //execute setupSections when loader is implemented
         //setupSections(with: [])
     }
     
