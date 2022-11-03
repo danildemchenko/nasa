@@ -28,4 +28,8 @@ enum Constants {
             return dateFormatter
         }
     }
+    
+    enum Unit {
+        static let base = UIScreen.main.bounds.width / 375
+    }
 }

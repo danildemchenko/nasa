@@ -13,10 +13,10 @@ struct RoverPhotos: Codable {
 
 struct RoverPhoto: Codable {
     let id: Int
-    let sol: Int
-    let img_src: String
-    let earth_date: String
-    let rover: Rover
+//    let sol: Int
+//    let img_src: String
+//    let earth_date: String
+//    let rover: Rover
 }
 
 struct Rover: Codable {

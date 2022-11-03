@@ -88,7 +88,7 @@ final class RoverCell: UICollectionViewCell {
     private func addConstraints() {
         mainContainer.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(16 * HomeView.unit)
+            $0.leading.trailing.equalToSuperview().inset(16 * Constants.Unit.base)
         }
         
         titleLabel.snp.makeConstraints {
@@ -107,7 +107,7 @@ final class RoverCell: UICollectionViewCell {
         
         moreButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(5)
-            $0.trailing.equalToSuperview().inset(16 * HomeView.unit)
+            $0.trailing.equalToSuperview().inset(16 * Constants.Unit.base)
             $0.height.equalTo(30)
         }
     }

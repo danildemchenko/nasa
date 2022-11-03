@@ -1,24 +1,17 @@
 //
-//  HomeView.swift
+//  HomeController.swift
 //  nasa
 //
 //  Created by Danil Demchenko on 07.10.2022.
 //
 
 import UIKit
-import SnapKit
+import SafariServices
+import Moya
+import RxSwift
+import RxCocoa
 
-protocol TopRoversViewDelegate: AnyObject {
-    func tapAt(rover: RoverType)
-}
-
-protocol HomeViewProtocol {
-    var controller: HomeController! { get set }
-    func updateCurrentRover(with index: Int, animated: Bool)
-}
-
-// MARK: substituted main view
-final class HomeView: UIView, HomeViewProtocol {
+final class HomeViewController: UIViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -74,38 +67,36 @@ final class HomeView: UIView, HomeViewProtocol {
         return button
     }()
     
-    weak var controller: HomeController!
-    
-    // MARK: HARDCODED STATIC DATA
-    private let roversData: [RoverCell.CellConfig] = [
-        .init(title: Localization.MainScreen.Rover.Top.title,
-              description: Localization.MainScreen.Rover.Top.description),
-        .init(title: Localization.MainScreen.Rover.Left.title,
-            description: Localization.MainScreen.Rover.Left.description),
-        .init(title: Localization.MainScreen.Rover.Right.title,
-            description: Localization.MainScreen.Rover.Right.description),
-    ]
+    weak var controller: HomeViewController!
     
     static let unit = UIScreen.main.bounds.width / 375
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var viewModel: HomeViewModelProtocol
+    
+    init(viewModel: HomeViewModelProtocol) {
+        self.viewModel = viewModel
         
-        configureAppearance()
-        addSubviews()
-        addConstraints()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
+        viewModel = HomeViewModel(provider: MoyaProvider<NasaApiService>(), storageService: StorageService())
+        
         super.init(coder: coder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         configureAppearance()
         addSubviews()
         addConstraints()
+        setupInitialRover()
+        bind()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         [
             fetchAllButton,
@@ -115,21 +106,76 @@ final class HomeView: UIView, HomeViewProtocol {
         }
     }
     
+    private func setupInitialRover() {
+        viewModel.selectedRover
+            .take(1)
+            .subscribe(onNext: { selectedRover in
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(row: selectedRover.rawValue, section: 0)
+                    self.collectionView.scrollToItem(at: indexPath, at: .left, animated: false)
+                }
+                self.topRoversView.animate(selectedRoverTag: selectedRover.rawValue, duration: 0)
+            })
+            .disposed(by: viewModel.disposeBag)
+    }
+    
+    private func bind() {
+        viewModel.selectedRover
+            .skip(1)
+            .subscribe(onNext: { selectedRover in
+                let indexPath = IndexPath(row: selectedRover.rawValue, section: 0)
+                self.collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+                self.topRoversView.animate(selectedRoverTag: selectedRover.rawValue)
+            })
+            .disposed(by: viewModel.disposeBag)
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { _ in
+                let roverMissionPageUrl = ConfigurationService().getMissionPageUrl(of: self.viewModel.selectedRover.value)
+                self.viewModel.roverUrlForOpening.onNext(roverMissionPageUrl)
+            })
+            .disposed(by: viewModel.disposeBag)
+        
+        viewModel.roverUrlForOpening
+            .subscribe(onNext: { url in
+                self.openMission(with: url)
+            })
+            .disposed(by: viewModel.disposeBag)
+        
+        viewModel.manifest
+            .subscribe { manifest in
+                let roverPhotosModel = RoverPhotosViewModel(provider: MoyaProvider<NasaApiService>())
+                let roverPhotosController = RoverPhotosViewController(
+                    viewModel: roverPhotosModel, rover: self.viewModel.selectedRover.value
+                )
+                roverPhotosController.setupManifestData(manifest)
+                roverPhotosController.modalPresentationStyle = .overFullScreen
+                self.present(roverPhotosController, animated: true)
+            } onError: { error in
+                print(error)
+            }
+            .disposed(by: viewModel.disposeBag)
+        
+        fetchAllButton.rx.tap
+            .bind {
+                self.viewModel.fetchManifest()
+            }
+            .disposed(by: viewModel.disposeBag)
+    }
+    
     private func configureAppearance() {
-        backgroundColor = .white
+        view.backgroundColor = .white
         
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(RoverCell.self, forCellWithReuseIdentifier: RoverCell.id)
         
         topRoversView.delegate = self
-        
-        fetchAllButton.addTarget(self, action: #selector(fetchAllHandler), for: .touchUpInside)
     }
     
     private func addSubviews() {
-        addSubview(scrollView)
-        addSubview(spinner)
+        view.addSubview(scrollView)
+        view.addSubview(spinner)
         scrollView.addSubview(contentView)
         
         [
@@ -147,23 +193,23 @@ final class HomeView: UIView, HomeViewProtocol {
         
         contentView.snp.makeConstraints {
             $0.leading.trailing.bottom.top.equalToSuperview()
-            $0.width.equalTo(snp.width)
+            $0.width.equalTo(view.snp.width)
         }
-
+        
         topRoversView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(contentView.snp.width).multipliedBy(1.25)
         }
         
         fetchPhotoLabel.snp.makeConstraints {
-            $0.top.equalTo(topRoversView.snp.bottom).offset(16 * HomeView.unit)
-            $0.leading.trailing.equalToSuperview().offset(16 * HomeView.unit)
+            $0.top.equalTo(topRoversView.snp.bottom).offset(16 * Constants.Unit.base)
+            $0.leading.trailing.equalToSuperview().offset(16 * Constants.Unit.base)
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(fetchPhotoLabel.snp.bottom).offset(13)
             $0.height.equalTo(230)
-            $0.leading.trailing.equalTo(safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         
         buttonsStackView.snp.makeConstraints {
@@ -194,53 +240,42 @@ final class HomeView: UIView, HomeViewProtocol {
         
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-        controller.selectRoverToUpdate(with: indexPath.item)
+        viewModel.selectedRover.accept(RoverType(rawValue: indexPath.item)!)
     }
     
-    func updateCurrentRover(with index: Int, animated: Bool = true) {
-        let animationDuration = animated ? 0.25 : 0
-        topRoversView.animate(selectedRoverTag: index, duration: animationDuration)
-        collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .right, animated: animated)
+    private func openMission(with url: URL) {
+        let safariController = SFSafariViewController(url: url)
+        safariController.modalPresentationStyle = .popover
+        present(safariController, animated: true)
+    }
+}
+
+// MARK: TopRoversViewDelegate
+extension HomeViewController: TopRoversViewDelegate {
+    func tapAt(rover: RoverType) {
+        viewModel.selectedRover.accept(rover)
     }
 }
 
 // MARK: UICollectionViewDataSource
-extension HomeView: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return roversData.count
+        return viewModel.roversData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoverCell.id, for: indexPath) as! RoverCell
-        let item = roversData[indexPath.item]
+        let item = viewModel.roversData[indexPath.item]
         cell.configure(with: .init(title: item.title, description: item.description))
         return cell
     }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
-extension HomeView: UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         RoverCell.size
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        controller.selectedRoverToOpen(RoverType(rawValue: indexPath.item)!)
-    }
-}
-
-// MARK: TopRoversViewDelegate
-extension HomeView: TopRoversViewDelegate {
-    func tapAt(rover: RoverType) {
-        controller.selectRoverToUpdate(with: rover.rawValue)
-    }
-}
-
-@objc extension HomeView {
-    func fetchAllHandler() {
-        spinner.startAnimating()
-        controller.fetchManifest()
     }
 }

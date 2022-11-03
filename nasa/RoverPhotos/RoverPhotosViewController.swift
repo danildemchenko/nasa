@@ -1,19 +1,15 @@
 //
-//  ManifestView.swift
+//  ManifestController.swift
 //  nasa
 //
-//  Created by Danil Demchenko on 19.10.2022.
+//  Created by Danil Demchenko on 18.10.2022.
 //
 
 import UIKit
+import Moya
+import RxDataSources
 
-protocol RoverPhotosViewProtocol {
-    var backgroundImage: UIImage? { get set }
-    var manifest: Manifest! { get set }
-    var photos: [RoverPhoto]! { get set }
-}
-
-final class RoverPhotosView: UIView {
+final class RoverPhotosViewController: UIViewController {
     
     private let backgroundImageContainer: UIImageView = UIImageView()
     private let photosView = InfoView()
@@ -56,6 +52,11 @@ final class RoverPhotosView: UIView {
         return view
     }()
     
+    private let collectionView: UICollectionView = {
+        let collectionViewFlowLayout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
+        return collectionView
+    }()
     
     private var isBarDraggingDown = false
     
@@ -78,35 +79,46 @@ final class RoverPhotosView: UIView {
         }
     }
     
-    var backgroundImage: UIImage? {
-        didSet {
-            backgroundImageContainer.image = backgroundImage
-        }
-    }
+    var dataSource: RxCollectionViewSectionedAnimatedDataSource<RoverPhotosViewModel.SectionModel>!
+    var rover: RoverType
     
-    var photos: [RoverPhoto]! {
-        didSet {
-            print(photos)
-        }
-    }
+    private var viewModel: RoverPhotosViewModel
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(viewModel: RoverPhotosViewModel, rover: RoverType) {
+        self.viewModel = viewModel
+        self.rover = rover
         
-        configureAppearance()
-        addSubviews()
-        addConstraints()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
+        viewModel = RoverPhotosViewModel(provider: MoyaProvider<NasaApiService>())
+        rover = RoverType(rawValue: 0)!
+       
         super.init(coder: coder)
+    }
+        
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         configureAppearance()
         addSubviews()
         addConstraints()
+        bind()
+        
+        viewModel.fetchRoverPhotosByEarthDate(rover: .opportunity,
+                                          date: Constants.CustomDataFormatter.request.date(from: "2015-6-3")!,
+                                          page: 1)
     }
     
     private func configureAppearance() {
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "photoId")
+        collectionView.backgroundColor = .brown
+        dataSource = generateDataSource()
+        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: viewModel.disposeBag)
+        
         [
             titleLabel,
             dateLabel,
@@ -128,7 +140,7 @@ final class RoverPhotosView: UIView {
             dateLabel,
             stackView,
             bottomBar,
-        ].forEach(addSubview)
+        ].forEach(view.addSubview)
         
         [
             photosView,
@@ -137,6 +149,7 @@ final class RoverPhotosView: UIView {
         ].forEach(stackView.addArrangedSubview)
         
         bottomBar.addSubview(upperBottomBar)
+        bottomBar.addSubview(collectionView)
         upperBottomBar.addSubview(barHandle)
     }
     
@@ -146,7 +159,7 @@ final class RoverPhotosView: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(unitW * 24)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(unitW * 24)
             $0.leading.trailing.equalToSuperview().inset(unitW * 20)
         }
         
@@ -189,12 +202,50 @@ final class RoverPhotosView: UIView {
             $0.width.equalTo(108)
             $0.center.equalToSuperview()
         }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(upperBottomBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(Constants.Unit.base * 20)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    private func generateDataSource() -> RxCollectionViewSectionedAnimatedDataSource<RoverPhotosViewModel.SectionModel> {
+        return RxCollectionViewSectionedAnimatedDataSource<RoverPhotosViewModel.SectionModel>(
+            animationConfiguration: AnimationConfiguration(insertAnimation: .fade,
+                                                           reloadAnimation: .fade,
+                                                           deleteAnimation: .fade
+                                                          ),
+            configureCell: { dataSource, collectionView, indexPath, _ in
+                let item: RoverPhotosViewModel.ItemModel = dataSource[indexPath]
+                
+                switch item {
+                case .photo(let item):
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoId", for: indexPath)
+                    // MARK: configure cell with item
+                    return cell
+                }
+            },
+            configureSupplementaryView: {_, _, _, _ in
+                return UICollectionReusableView()
+            }
+        )
+    }
+    
+    private func bind() {
+        viewModel.sections
+            .asObservable()
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: viewModel.disposeBag)
+    }
+        
+    func setupManifestData(_ manifest: Manifest) {
+        self.manifest = manifest
+        backgroundImageContainer.image = UIImage(named: rover.stringValue)
     }
 }
 
-extension RoverPhotosView: RoverPhotosViewProtocol {}
-
-@objc extension RoverPhotosView {
+@objc extension RoverPhotosViewController {
     @objc func bottomBarGestureHandler(_ recognizer: UIPanGestureRecognizer) {
         let barMiddleHeight: CGFloat = unitH * 473
         let barMinHeight: CGFloat = unitH * 90
@@ -205,7 +256,7 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
         
         switch recognizer.state {
         case .changed:
-            let translation = recognizer.translation(in: self)
+            let translation = recognizer.translation(in: view)
      
             isBarDraggingDown = translation.y > 0 && barCurrentHeight < barMaxHeight
 
@@ -222,10 +273,10 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
                     $0.height.equalTo(self.barCurrentHeight)
                     $0.width.equalTo(self.barCurrentWidth)
                 }
-                self.layoutIfNeeded()
+                self.view.layoutIfNeeded()
             }
             
-            recognizer.setTranslation(.zero, in: self)
+            recognizer.setTranslation(.zero, in: view)
             
         case .ended:
             if (self.barCurrentHeight < barMaxHeight &&
@@ -260,7 +311,9 @@ extension RoverPhotosView: RoverPhotosViewProtocol {}
                 $0.width.equalTo(self.barCurrentWidth)
             }
             
-            self.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }
     }
 }
+
+extension RoverPhotosViewController: UICollectionViewDelegateFlowLayout {}
