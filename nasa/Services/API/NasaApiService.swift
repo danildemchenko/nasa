@@ -46,14 +46,9 @@ extension NasaApiService: TargetType {
             return "/mars-photos/api/v1/rovers/\(rover.stringValue)/photos"
         }
     }
-
+    
     var method: Moya.Method {
-        switch target {
-        case .manifest:
-            return .get
-        default:
-            return .post
-        }
+        .get
     }
     
     var sampleData: Data {
@@ -82,6 +77,6 @@ extension NasaApiService: TargetType {
             ]
         }
         
-        return .requestParameters(parameters: params, encoding: URLEncoding.default)
+        return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     }
 }

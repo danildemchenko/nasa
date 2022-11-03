@@ -54,6 +54,8 @@ final class RoverPhotosViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewFlowLayout.minimumInteritemSpacing = 0
+        collectionViewFlowLayout.minimumLineSpacing = Constants.Unit.base * 20
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
         return collectionView
     }()
@@ -106,7 +108,7 @@ final class RoverPhotosViewController: UIViewController {
         addConstraints()
         bind()
         
-        viewModel.fetchRoverPhotosByEarthDate(rover: .opportunity,
+        viewModel.fetchRoverPhotosByEarthDate(rover: rover,
                                           date: Constants.CustomDataFormatter.request.date(from: "2015-6-3")!,
                                           page: 1)
     }
@@ -212,7 +214,7 @@ final class RoverPhotosViewController: UIViewController {
     
     private func generateDataSource() -> RxCollectionViewSectionedAnimatedDataSource<RoverPhotosViewModel.SectionModel> {
         return RxCollectionViewSectionedAnimatedDataSource<RoverPhotosViewModel.SectionModel>(
-            animationConfiguration: AnimationConfiguration(insertAnimation: .fade,
+            animationConfiguration: AnimationConfiguration(insertAnimation: .none,
                                                            reloadAnimation: .fade,
                                                            deleteAnimation: .fade
                                                           ),
@@ -221,8 +223,10 @@ final class RoverPhotosViewController: UIViewController {
                 
                 switch item {
                 case .photo(let item):
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoId", for: indexPath)
-                    // MARK: configure cell with item
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoId",
+                                                                  for: indexPath) as! UICollectionViewCell
+                    cell.backgroundColor = .red
+                    //configure cell with item
                     return cell
                 }
             },
@@ -274,6 +278,7 @@ final class RoverPhotosViewController: UIViewController {
                     $0.width.equalTo(self.barCurrentWidth)
                 }
                 self.view.layoutIfNeeded()
+                self.collectionView.collectionViewLayout.invalidateLayout()
             }
             
             recognizer.setTranslation(.zero, in: view)
@@ -316,4 +321,13 @@ final class RoverPhotosViewController: UIViewController {
     }
 }
 
-extension RoverPhotosViewController: UICollectionViewDelegateFlowLayout {}
+extension RoverPhotosViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let paddingSpace = Constants.Unit.base * 20 + 2 + 1
+        let availableWidth = collectionView.frame.width - paddingSpace
+        let widthPerItem = availableWidth / 2
+        return .init(width: widthPerItem, height: 150)
+    }
+}

@@ -47,9 +47,8 @@ extension RoverPhotosViewModel: RoverPhotosViewModelProtocol {
         provider.rx.request(.init(target: .photosByDate(rover: rover, date: date, page: page)))
             .asObservable()
             .decode(RoverPhotos.self)
-            .subscribe(onNext: { photosResponse in
-                print(photosResponse)
-//                self.setupSections(with: photosResponse.photos)
+            .subscribe(onNext: { decodedPhotosResponse in
+                self.setupSections(with: decodedPhotosResponse.photos)
             }, onError: { error in
                 print(error)
             })
