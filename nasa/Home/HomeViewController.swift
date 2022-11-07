@@ -131,8 +131,7 @@ final class HomeViewController: UIViewController {
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { _ in
-                let roverMissionPageUrl = ConfigurationService().getMissionPageUrl(of: self.viewModel.selectedRover.value)
-                self.viewModel.roverUrlForOpening.onNext(roverMissionPageUrl)
+                self.viewModel.setMissionPageUrl()
             })
             .disposed(by: viewModel.disposeBag)
         

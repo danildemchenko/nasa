@@ -39,11 +39,11 @@ extension NasaApiService: TargetType {
     var path: String {
         switch target {
         case .manifest(let rover):
-            return "/mars-photos/api/v1/manifests/\(rover.stringValue)"
+            return "/manifests/\(rover.stringValue)"
         case .photosByDate(let rover, _, _):
-            return "/mars-photos/api/v1/rovers/\(rover.stringValue)/photos"
+            return "/rovers/\(rover.stringValue)/photos"
         case .photosbySol(let rover, _, _):
-            return "/mars-photos/api/v1/rovers/\(rover.stringValue)/photos"
+            return "/rovers/\(rover.stringValue)/photos"
         }
     }
     

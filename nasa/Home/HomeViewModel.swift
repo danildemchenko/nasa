@@ -14,10 +14,11 @@ protocol HomeViewModelProtocol {
     var selectedRover: BehaviorRelay<RoverType> { get }
     var storageService: StorageService { get set }
     var roversData: [RoverCell.CellConfig] { get }
-    var roverUrlForOpening: PublishSubject<URL> { get }
+    var roverUrlForOpening: PublishRelay<URL> { get }
     var manifest: PublishSubject<Manifest> { get }
     var disposeBag: DisposeBag { get }
     func fetchManifest()
+    func setMissionPageUrl()
 }
 
 final class HomeViewModel {
@@ -25,7 +26,7 @@ final class HomeViewModel {
     var storageService: StorageService
     var roversData: [RoverCell.CellConfig] = []
     var selectedRover = BehaviorRelay<RoverType>(value: .curiosity)
-    var roverUrlForOpening = PublishSubject<URL>()
+    var roverUrlForOpening = PublishRelay<URL>()
     var manifest = PublishSubject<Manifest>()
     var disposeBag = DisposeBag()
     
@@ -65,5 +66,10 @@ extension HomeViewModel: HomeViewModelProtocol {
                 })
                 .disposed(by: disposeBag)
         }
+    }
+    
+    func setMissionPageUrl() {
+        let roverMissionPageUrl = ConfigurationService().getMissionPageUrl(of: selectedRover.value)
+        roverUrlForOpening.accept(roverMissionPageUrl)
     }
 }
