@@ -29,4 +29,9 @@ enum Localization {
             }
         }
     }
+    
+    enum Error {
+        static let general = NSLocalizedString("error.message.general", comment: "")
+        static let server = NSLocalizedString("error.message.server", comment: "")
+    }
 }

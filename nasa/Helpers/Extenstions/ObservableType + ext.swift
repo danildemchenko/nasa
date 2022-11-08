@@ -12,11 +12,11 @@ extension ObservableType {
     func decode<T: Codable>(_ type: T.Type) -> Observable<T> {
         return map { response -> T in
             guard let data = (response as? Response)?.data else {
-                fatalError("error occured")
+                throw ApiError.server
             }
             
             guard let object = try? JSONDecoder().decode(type, from: data) else {
-                fatalError("decoding error occured")
+                throw ApiError.decode
             }
             
             return object

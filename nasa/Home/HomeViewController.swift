@@ -11,18 +11,12 @@ import Moya
 import RxSwift
 import RxCocoa
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let topRoversView = TopRoversView()
-    
-    private let spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView()
-        spinner.backgroundColor = .white.withAlphaComponent(0.3)
-        return spinner
-    }()
-    
+        
     private let fetchPhotoLabel: UILabel = {
         let label = UILabel()
         label.text = Localization.MainScreen.subtitle.uppercased()
@@ -150,9 +144,13 @@ final class HomeViewController: UIViewController {
                 roverPhotosController.setupManifestData(manifest)
                 roverPhotosController.modalPresentationStyle = .overFullScreen
                 self.present(roverPhotosController, animated: true)
-            } onError: { error in
-                print(error)
             }
+            .disposed(by: viewModel.disposeBag)
+        
+        viewModel.error
+            .subscribe(onNext: { error in
+                self.showErrorAlert(error)
+            })
             .disposed(by: viewModel.disposeBag)
         
         fetchAllButton.rx.tap
@@ -174,7 +172,6 @@ final class HomeViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(scrollView)
-        view.addSubview(spinner)
         scrollView.addSubview(contentView)
         
         [
@@ -224,11 +221,6 @@ final class HomeViewController: UIViewController {
         calendarButton.snp.makeConstraints {
             $0.height.equalTo(fetchAllButton)
             $0.width.equalTo(80)
-        }
-        
-        spinner.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.edges.equalToSuperview()
         }
     }
     

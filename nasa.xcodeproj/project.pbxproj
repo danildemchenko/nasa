@@ -11,6 +11,8 @@
 		2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447D28F1EECA00519341 /* UIFont + ext.swift */; };
 		2C10448028F1EF0A00519341 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10447F28F1EF0A00519341 /* Constants.swift */; };
 		2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10448128F1EF4E00519341 /* UIColor + ext.swift */; };
+		2C43DC18291A761C003FDEE9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43DC17291A761C003FDEE9 /* BaseViewController.swift */; };
+		2C43DC1A291A7E70003FDEE9 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43DC19291A7E70003FDEE9 /* ApiError.swift */; };
 		2C6BEF452900097D002DC29F /* SF-Pro-Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C6BEF432900097D002DC29F /* SF-Pro-Display-Bold.ttf */; };
 		2C6BEF462900097D002DC29F /* SF-Pro-Display-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C6BEF442900097D002DC29F /* SF-Pro-Display-Regular.ttf */; };
 		2C6BEF492900252C002DC29F /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6BEF482900252C002DC29F /* InfoView.swift */; };
@@ -43,6 +45,8 @@
 		2C10447D28F1EECA00519341 /* UIFont + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + ext.swift"; sourceTree = "<group>"; };
 		2C10447F28F1EF0A00519341 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2C10448128F1EF4E00519341 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
+		2C43DC17291A761C003FDEE9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		2C43DC19291A7E70003FDEE9 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		2C6BEF432900097D002DC29F /* SF-Pro-Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Bold.ttf"; sourceTree = "<group>"; };
 		2C6BEF442900097D002DC29F /* SF-Pro-Display-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.ttf"; sourceTree = "<group>"; };
 		2C6BEF482900252C002DC29F /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 			children = (
 				2CD6C39E28FD847F00EBF030 /* Extenstions */,
 				2C10447F28F1EF0A00519341 /* Constants.swift */,
+				2C43DC17291A761C003FDEE9 /* BaseViewController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -214,6 +219,7 @@
 				2C7BE8D22902D6EE00B09AFA /* API */,
 				2CAF9D3228FAB94500ED9892 /* ConfigurationService.swift */,
 				2CD673C5290145180088869A /* StorageService.swift */,
+				2C43DC19291A7E70003FDEE9 /* ApiError.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -398,6 +404,7 @@
 				2CF1C6F72913EFA300250AD5 /* UICollectionView + ext.swift in Sources */,
 				2CBAA3C8291256B0006A1BD4 /* ObservableType + ext.swift in Sources */,
 				2CDD16A728F087D400910A32 /* HomeViewController.swift in Sources */,
+				2C43DC18291A761C003FDEE9 /* BaseViewController.swift in Sources */,
 				2CAF9D2928F9B06C00ED9892 /* Localization.swift in Sources */,
 				2CD673C6290145180088869A /* StorageService.swift in Sources */,
 				2C6BEF492900252C002DC29F /* InfoView.swift in Sources */,
@@ -410,6 +417,7 @@
 				2C7BE8D12902B31900B09AFA /* RoverPhoto.swift in Sources */,
 				2C10447828F0C0E000519341 /* RoverCell.swift in Sources */,
 				2CDD169328F0878200910A32 /* AppDelegate.swift in Sources */,
+				2C43DC1A291A7E70003FDEE9 /* ApiError.swift in Sources */,
 				2C10447E28F1EECA00519341 /* UIFont + ext.swift in Sources */,
 				2C10448228F1EF4E00519341 /* UIColor + ext.swift in Sources */,
 				2CDD169528F0878200910A32 /* SceneDelegate.swift in Sources */,

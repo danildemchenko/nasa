@@ -14,6 +14,7 @@ import RxDataSources
 protocol RoverPhotosViewModelProtocol {
     var provider: MoyaProvider<NasaApiService> { get }
     var sections: BehaviorRelay<[RoverPhotosViewModel.SectionModel]> { get }
+    var error: PublishRelay<Error> { get }
     var disposeBag: DisposeBag { get }
     
     func fetchRoverPhotosByEarthDate(rover: RoverType, date: Date, page: Int)
@@ -22,6 +23,7 @@ protocol RoverPhotosViewModelProtocol {
 final class RoverPhotosViewModel {
     var provider: MoyaProvider<NasaApiService>
     var sections = BehaviorRelay<[RoverPhotosViewModel.SectionModel]>(value: [])
+    var error = PublishRelay<Error>()
     var disposeBag = DisposeBag()
     
     init(provider: MoyaProvider<NasaApiService>) {
@@ -51,7 +53,7 @@ extension RoverPhotosViewModel: RoverPhotosViewModelProtocol {
             .subscribe(onNext: { decodedPhotosResponse in
                 self.setupSections(with: decodedPhotosResponse.photos)
             }, onError: { error in
-                print(error)
+                self.error.accept(error)
             })
             .disposed(by: disposeBag)
     }

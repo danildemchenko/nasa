@@ -15,7 +15,8 @@ protocol HomeViewModelProtocol {
     var storageService: StorageService { get set }
     var roversData: [RoverCell.CellConfig] { get }
     var roverUrlForOpening: PublishRelay<URL> { get }
-    var manifest: PublishSubject<Manifest> { get }
+    var manifest: PublishRelay<Manifest> { get }
+    var error: PublishRelay<Error> { get }
     var disposeBag: DisposeBag { get }
     func fetchManifest()
     func setMissionPageUrl()
@@ -27,7 +28,8 @@ final class HomeViewModel {
     var roversData: [RoverCell.CellConfig] = []
     var selectedRover = BehaviorRelay<RoverType>(value: .curiosity)
     var roverUrlForOpening = PublishRelay<URL>()
-    var manifest = PublishSubject<Manifest>()
+    var manifest = PublishRelay<Manifest>()
+    var error = PublishRelay<Error>()
     var disposeBag = DisposeBag()
     
     init(provider: MoyaProvider<NasaApiService>, storageService: StorageService) {
@@ -54,15 +56,17 @@ extension HomeViewModel: HomeViewModelProtocol {
     func fetchManifest() {
         if let storedManifest: Manifest =
             storageService.getStoredObject(with: "manifest-\(selectedRover.value)") {
-            manifest.onNext(storedManifest)
+            manifest.accept(storedManifest)
         } else {
             provider.rx.request(.init(target: .manifest(rover: selectedRover.value)))
                 .asObservable()
                 .decode(ManifestResponse.self)
                 .subscribe(onNext: { manifestResponse in
-                    self.manifest.onNext(manifestResponse.photoManifest)
+                    self.manifest.accept(manifestResponse.photoManifest)
+                    self.storageService.store(object: manifestResponse.photoManifest,
+                                              with: "manifest-\(self.selectedRover.value)")
                 }, onError: { error in
-                    print(error)
+                    self.error.accept(error)
                 })
                 .disposed(by: disposeBag)
         }

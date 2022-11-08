@@ -14,3 +14,7 @@
 
 "main_screen.right-rover_title" = "Curiosity";
 "main_screen.right-rover_description" = "Opportunity was the second of the two rovers launched in 2003 to land on Mars and begin traversing the Red Planet in search of signs of ancient water. The rover explored the Martian terrain for almost 15 years, far outlasting her planned 90-day mission. Additional text just for the test curiosity";
+
+//error handling:
+"error.message.general" = "Oops, something went wrong. Please try later";
+"error.message.server" = "We'll find out who has programmed that. Try again";

@@ -9,13 +9,20 @@ import UIKit
 import Moya
 import RxDataSources
 
-final class RoverPhotosViewController: UIViewController {
+final class RoverPhotosViewController: BaseViewController {
     
     private let backgroundImageContainer: UIImageView = UIImageView()
     private let photosView = InfoView()
     private let dayView = InfoView()
     private let solView = InfoView()
     private let upperBottomBar = UIView()
+    
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -96,10 +103,10 @@ final class RoverPhotosViewController: UIViewController {
     required init?(coder: NSCoder) {
         viewModel = RoverPhotosViewModel(provider: MoyaProvider<NasaApiService>())
         rover = RoverType(rawValue: 0)!
-       
+        
         super.init(coder: coder)
     }
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -109,8 +116,8 @@ final class RoverPhotosViewController: UIViewController {
         bind()
         
         viewModel.fetchRoverPhotosByEarthDate(rover: rover,
-                                          date: Constants.CustomDataFormatter.request.date(from: "2015-6-3")!,
-                                          page: 1)
+                                              date: Constants.CustomDataFormatter.request.date(from: "2015-6-3")!,
+                                              page: 1)
     }
     
     private func configureAppearance() {
@@ -124,20 +131,23 @@ final class RoverPhotosViewController: UIViewController {
         [
             titleLabel,
             dateLabel,
+            closeButton,
         ].forEach { $0.addSystemShadows() }
-
+        
         DispatchQueue.main.async {
             self.barHandle.layer.cornerRadius = self.barHandle.frame.height / 2
         }
         
         upperBottomBar.addGestureRecognizer(UIPanGestureRecognizer(target: self,
                                                                    action: #selector(bottomBarGestureHandler(_:))))
+        closeButton.addTarget(self, action: #selector(closeButtonHandler), for: .touchUpInside)
     }
     
     private func addSubviews() {
-
+        
         [
             backgroundImageContainer,
+            closeButton,
             titleLabel,
             dateLabel,
             stackView,
@@ -163,6 +173,12 @@ final class RoverPhotosViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(unitW * 24)
             $0.leading.trailing.equalToSuperview().inset(unitW * 20)
+        }
+        
+        closeButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(unitW * 12)
+            $0.trailing.equalToSuperview()
+            $0.size.equalTo(65)
         }
         
         dateLabel.snp.makeConstraints {
@@ -240,8 +256,14 @@ final class RoverPhotosViewController: UIViewController {
             .asObservable()
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: viewModel.disposeBag)
-    }
         
+        viewModel.error
+            .subscribe(onNext: { error in
+                self.showErrorAlert(error)
+            })
+            .disposed(by: viewModel.disposeBag)
+    }
+    
     func setupManifestData(_ manifest: Manifest) {
         self.manifest = manifest
         backgroundImageContainer.image = UIImage(named: rover.stringValue)
@@ -249,7 +271,7 @@ final class RoverPhotosViewController: UIViewController {
 }
 
 @objc extension RoverPhotosViewController {
-    @objc func bottomBarGestureHandler(_ recognizer: UIPanGestureRecognizer) {
+    private func bottomBarGestureHandler(_ recognizer: UIPanGestureRecognizer) {
         let barMiddleHeight: CGFloat = unitH * 473
         let barMinHeight: CGFloat = unitH * 90
         let barMaxHeight: CGFloat = unitH * 813
@@ -260,9 +282,9 @@ final class RoverPhotosViewController: UIViewController {
         switch recognizer.state {
         case .changed:
             let translation = recognizer.translation(in: view)
-     
+            
             isBarDraggingDown = translation.y > 0 && barCurrentHeight < barMaxHeight
-
+            
             UIView.animate(withDuration: 0.25, delay: 0) {
                 self.bottomBar.backgroundColor = .white
                 self.barCurrentHeight -= translation.y
@@ -271,7 +293,7 @@ final class RoverPhotosViewController: UIViewController {
                     self.barCurrentWidth -= translation.y / 4
                     self.barCurrentWidth = min(max(self.barCurrentWidth, barMinWidth), barMaxWidth)
                 }
-        
+                
                 self.bottomBar.snp.updateConstraints {
                     $0.height.equalTo(self.barCurrentHeight)
                     $0.width.equalTo(self.barCurrentWidth)
@@ -287,8 +309,8 @@ final class RoverPhotosViewController: UIViewController {
                 self.barCurrentHeight > middleHeighBorder &&
                 isBarDraggingDown == true) ||
                 (self.barCurrentHeight < barMiddleHeight && isBarDraggingDown == false) {
-                    self.barCurrentHeight = barMiddleHeight
-                    self.updateBar(height: barCurrentHeight)
+                self.barCurrentHeight = barMiddleHeight
+                self.updateBar(height: barCurrentHeight)
             } else if barCurrentHeight  > barMiddleHeight && isBarDraggingDown == false {
                 let dateLabelOriginY = dateLabel.frame.origin.y
                 let diff = UIScreen.main.bounds.height - dateLabelOriginY - 10
@@ -317,6 +339,10 @@ final class RoverPhotosViewController: UIViewController {
             
             self.view.layoutIfNeeded()
         }
+    }
+    
+    private func closeButtonHandler() {
+        dismiss(animated: true)
     }
 }
 
