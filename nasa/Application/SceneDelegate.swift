@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Moya
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -13,8 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
-        let homeModel = HomeModel(nasaApiService: NasaApiService(), storageService: StorageService())
-        let homeController = HomeController(homeView: HomeView(), model: homeModel)
+        let homeModel = HomeViewModel(provider: MoyaProvider<NasaApiService>(), storageService: StorageService())
+        let homeController = HomeViewController(viewModel: homeModel)
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

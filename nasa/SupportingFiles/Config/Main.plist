@@ -4,20 +4,29 @@
 <dict>
 	<key>apiKey</key>
 	<string>xSg3kOuqXipyLMgs22EYS6HxSI8hRfM8thmbOymG</string>
-	<key>urls</key>
+	<key>baseUrl</key>
+	<string>https://api.nasa.gov/mars-photos/api/v1</string>
+	<key>missionPages</key>
 	<dict>
-		<key>photos</key>
+		<key>opportunity</key>
 		<dict>
 			<key>scheme</key>
 			<string>https</string>
 			<key>host</key>
-			<string>api.nasa.gov</string>
+			<string>www.jpl.nasa.gov</string>
 			<key>path</key>
-			<string>/mars-photos/api</string>
-			<key>version</key>
-			<string>/v1</string>
+			<string>/missions/mars-exploration-rover-opportunity-mer</string>
 		</dict>
-		<key>missionPage</key>
+		<key>spirit</key>
+		<dict>
+			<key>scheme</key>
+			<string>https</string>
+			<key>host</key>
+			<string>www.jpl.nasa.gov</string>
+			<key>path</key>
+			<string>/missions/mars-exploration-rover-spirit-mer-spirit</string>
+		</dict>
+		<key>curiosity</key>
 		<dict>
 			<key>scheme</key>
 			<string>https</string>
@@ -25,8 +34,6 @@
 			<string>www.jpl.nasa.gov</string>
 			<key>path</key>
 			<string>/missions/mars-science-laboratory-curiosity-rover-msl</string>
-			<key>version</key>
-			<string></string>
 		</dict>
 	</dict>
 </dict>

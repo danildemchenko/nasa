@@ -1,62 +1,82 @@
 //
-//  Service.swift
+//  NasaApiService.swift
 //  nasa
 //
-//  Created by Danil Demchenko on 18.10.2022.
+//  Created by Danil Demchenko on 02.11.2022.
 //
 
 import Foundation
+import Moya
 
-protocol NasaApiServiceProtocol: AnyObject {
-    func getManifest(for rover: RoverType, completion: @escaping (ManifestResponse?, Error?) -> Void)
-    func getPhotosBySol(rover: RoverType,
-                        sol: Int,
-                        page: Int,
-                        completion: @escaping (RoverPhotos?, Error?) -> Void)
-    func getPhotosByEarthDate(rover: RoverType, date: Date,
-                              page: Int,
-                              completion: @escaping (RoverPhotos?, Error?) -> Void)
+enum NasaApiTarget {
+    case manifest(rover: RoverType)
+    case photosbySol(rover: RoverType, sol: Int, page: Int)
+    case photosByDate(rover: RoverType, date: Date, page: Int)
 }
 
-final class NasaApiService: NasaApiServiceProtocol {
-    func getManifest(for rover: RoverType, completion: @escaping (ManifestResponse?, Error?) -> Void) {
-        let url = URLService(endpoint: .manifest(rover: rover)).url
-        let request = URLRequest(url: url)
-        
-        make(request: request, completion: completion)
+final class NasaApiService {
+    
+    private let target: NasaApiTarget
+    private let config = ConfigurationService()
+    
+    init(target: NasaApiTarget) {
+        self.target = target
+    }
+}
+
+extension NasaApiService: TargetType {
+    
+    var headers: [String : String]? {
+        [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
     }
     
-    func getPhotosBySol(rover: RoverType,
-                        sol: Int,
-                        page: Int,
-                        completion: @escaping (RoverPhotos?, Error?) -> Void) {
-        let url = URLService(endpoint: .photosbySol(rover: rover, sol: sol, page: page)).url
-        let request = URLRequest(url: url)
-        
-        make(request: request, completion: completion)
+    var baseURL: URL {
+        ConfigurationService().baseUrl
     }
     
-    func getPhotosByEarthDate(rover: RoverType,
-                              date: Date,
-                              page: Int,
-                              completion: @escaping (RoverPhotos?, Error?) -> Void) {
-        let url = URLService(endpoint: .photosByDate(rover: rover, date: date, page: page)).url
-        let request = URLRequest(url: url)
-        
-        make(request: request, completion: completion)
-    }
-    
-    private func make<T: Decodable>(request: URLRequest, completion: @escaping (T?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            
-            guard let data = data else { return }
-            let decodableData = try? JSONDecoder().decode(T.self, from: data)
-            completion(decodableData, nil)
+    var path: String {
+        switch target {
+        case .manifest(let rover):
+            return "/manifests/\(rover.stringValue)"
+        case .photosByDate(let rover, _, _):
+            return "/rovers/\(rover.stringValue)/photos"
+        case .photosbySol(let rover, _, _):
+            return "/rovers/\(rover.stringValue)/photos"
         }
-        .resume()
+    }
+    
+    var method: Moya.Method {
+        .get
+    }
+    
+    var sampleData: Data {
+        Data()
+    }
+    
+    var task: Moya.Task {
+        var params: [String: Any] = [:]
+        
+        switch target {
+        case .manifest:
+            params = [
+                "api_key": config.apiKey
+            ]
+        case .photosByDate(_, let date, let page):
+            params = [
+                "api_key": config.apiKey,
+                "page": page,
+                "earth_date": date
+            ]
+        case .photosbySol(_, let sol, let page):
+            params = [
+                "api_key": config.apiKey,
+                "page": page,
+                "sol": sol
+            ]
+        }
+        
+        return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     }
 }
